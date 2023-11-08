@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang ="ja">
+<head>
+    <title>Greeting Page</title>
+</head>
+<body>
+    <h1>
+    <span th:text="${memberName}"></span>
+    </h1>
+    <h1>
+        <form action="#" th:action="@{/manager/search-report}" th:object="${reportSearchInput}" method="post">
+            <label for="date">日付を選択:</label>
+            <input type ="hidden" name="employeeCode" th:value="${employeeCode}" th:filed="*{employeeCode}">
+            <input type="date" id="date" name="date" value="" th:filed="*{date}"/>
+
+            <!-- ボタンを作成 -->
+            <input type="submit" value="検索"/>
+        </form>
+    </h1>
+
+</body>
+</html>
