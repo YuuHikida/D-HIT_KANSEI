@@ -10,7 +10,18 @@ import java.util.List;
 
 @Mapper
 public interface TaskMapper {
-    @Select("SELECT * FROM  task WHERE id in (#{taskIds})")
-    List<Task> selectTasksByIds(@Param("taskIds") List<Integer> taskIds);
+
+    @Select("""
+      <script>
+        SELECT * FROM
+          task
+        <where> id in
+        <foreach item="taskId" collection="taskIds" open="(" separator="," close=")">
+              #{taskId}
+        </foreach>
+        </where>
+      </script>
+    """)
+    List<Task> selectTasksByIds(@Param("taskIds") List<String> taskIds);
 }
 

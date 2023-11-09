@@ -19,7 +19,12 @@ public class MysqlTaskRepository implements TaskRepository {
     @Override
     public List<Task> findByIds(List<Integer> taskIds)
     {
-        return this.taskMapper.selectTasksByIds(taskIds);
+        List<String> stringTaskIds = taskIds.stream().map(Object::toString).toList();
+        //System.out.println("taskIds"+taskIds.size());
+        for (Integer taskId : taskIds) {
+            System.out.println(taskId);
+        }
+        return this.taskMapper.selectTasksByIds(stringTaskIds);
     }
 
 }

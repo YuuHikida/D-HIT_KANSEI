@@ -7,6 +7,7 @@ import analix.DHIT.model.Task;
 import analix.DHIT.repository.TaskRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -21,12 +22,12 @@ public class TaskService {
     public List<Task> getTasksByReportId(int reportId)
     {
         List<Integer> taskIds = businessReportTaskLink.selectAllTaskIdByReportId(reportId);
-        List<Task> tasks = this.taskRepository.findByIds(taskIds);
-        if(tasks==null)
+        //System.out.println("tasklink" + taskIds.size());
+        if(taskIds.isEmpty())
         {
-            throw new TaskNotFoundException("Task Not Found");
+            return new ArrayList<>();
         }
-        return tasks;
+        return this.taskRepository.findByIds(taskIds);
     }
 
 

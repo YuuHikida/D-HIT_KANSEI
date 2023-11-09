@@ -12,6 +12,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @Controller
@@ -31,6 +32,7 @@ public class ManagerController {
     }
 
     @GetMapping("/manager/report-search")
+    //↑エンドポイント　　　　　　　　　　/manager/report-search?employeeCode=1　　
     public String displayReportSearch(@RequestParam(name = "employeeCode", required = true) int employeeCode, Model model) {
         User user = userService.getUserByEmployeeCode(employeeCode);
 
@@ -56,12 +58,22 @@ public class ManagerController {
 
         Report report = reportService.getReportById(reportId);
         List<Task> tasks = taskService.getTasksByReportId(reportId);
+        User user = userService.getUserByEmployeeCode(report.getEmployeeCode());
 
+        System.out.println(tasks.size());
+
+        model.addAttribute("tasks", tasks);
         model.addAttribute("date", report.getDate());
         model.addAttribute("impressions", report.getImpressions());
+        model.addAttribute("startTime",report.getStartTime());
+        model.addAttribute("endTime",report.getEndTime());
+        model.addAttribute("tomorrowSchedule",report.getTomorrowSchedule());
         //名前を入れる
-        model.addAttribute("date", report.getDate());
-//        model.addAttribute();
+        model.addAttribute("memberName",user.getName());
+        model.addAttribute("isBehindTime",report.getBehideTime());
+        model.addAttribute("behideReason",report.getBehideReason());
+        model.addAttribute("isLeavingEarly",report.getLeavingEarly());
+
         return "manager/report-detail";
     }
 

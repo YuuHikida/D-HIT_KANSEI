@@ -2,16 +2,17 @@ package analix.DHIT.model;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 
 public class Report {
     private int id;
-    private int employee_code;
+    private int employeeCode;
     private String condition;
     private String impressions;
     private String tomorrowSchedule;
     private LocalDate date;
-    private LocalDateTime startTime;
-    private LocalDateTime endTime;
+    private LocalTime endTime;
+    private LocalTime startTime;
     private Boolean isBehideTime;
     private String behideReason;
     private Boolean isLeavingEarly;
@@ -24,12 +25,12 @@ public class Report {
         this.id = id;
     }
 
-    public int getEmployee_code() {
-        return employee_code;
+    public int getEmployeeCode() {
+        return employeeCode;
     }
 
-    public void setEmployee_code(int employee_code) {
-        this.employee_code = employee_code;
+    public void setEmployeeCode(int employeeCode) {
+        this.employeeCode = employeeCode;
     }
 
     public String getCondition() {
@@ -64,20 +65,20 @@ public class Report {
         this.date = date;
     }
 
-    public LocalDateTime getStartTime() {
+    public LocalTime getStartTime() {
         return startTime;
     }
 
-    public void setStartTime(LocalDateTime startTime) {
+    public void setStartTime(LocalTime startTime) {
         this.startTime = startTime;
     }
 
-    public LocalDateTime getEndTime() {
+    public LocalTime getEndTime() {
         return endTime;
     }
 
 
-    public void setEndTime(LocalDateTime endTime) {
+    public void setEndTime(LocalTime endTime) {
         this.endTime = endTime;
     }
 

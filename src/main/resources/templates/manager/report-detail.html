@@ -1,14 +1,29 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
 </head>
 <body>
-    <h1>
-        業務報告書詳細ページ
+<h1>
+    業務報告書詳細ページ
+</h1>
+<p><span th:text="${memberName}"></span></p>
+<p><span th:text="${date}"></span></p>
+<p>出勤時間:<span th:text="${startTime}"></span></p>
+<p>退勤時間:<span th:text="${endTime}"></span></p>
+<p><span th:text="${impressions}"></span></p>
+<p>明日の予定 :<span th:text="${tomorrowSchedule}"></span></p>
+<p>遅刻していますか？<span th:text="${isBehindTime}"></span></p>
+<p><span th:text="${behideReason}"></span></p>
+<p>早退してますか？<span th:text="${isLeavingEarly}"></span></p>
 
-    </h1>
+<tr th:each="task : ${tasks}">
+    <p>
+    <td th:text="${task.taskName}"></td>
+    <td th:text="${'進捗率:' + task.progressRate + '%'}"></td>
+    </p>
+</tr>
 
 </body>
 </html>
