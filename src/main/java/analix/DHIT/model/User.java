@@ -5,7 +5,7 @@ public class User {
     private String name;
     private String password;
     private String role;
-    private  byte[] icon;
+    private String icon;
 
     public int getEmployeeCode()
     {
@@ -40,11 +40,11 @@ public class User {
         this.role = role;
     }
 
-    public byte[] getIcon() {
+    public String getIcon() {
         return icon;
     }
 
-    public void setIcon(byte[] icon) {
+    public void setIcon(String icon) {
         this.icon = icon;
     }
 }

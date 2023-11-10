@@ -30,6 +30,17 @@ public class ManagerController {
         this.taskService = taskService;
     }
 
+    @GetMapping("/manager/home")
+
+    public String displayHome(
+            Model model
+    ) {
+        List<User> members = userService.getAllMember();
+        model.addAttribute("members", members);
+        return "manager/home";
+    }
+
+
     @GetMapping("/manager/report-search")
     //↑エンドポイント　　　　　　　　　　/manager/report-search?employeeCode=1　　
     public String displayReportSearch(

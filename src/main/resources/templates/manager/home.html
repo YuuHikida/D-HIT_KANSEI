@@ -1,10 +1,22 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
 </head>
 <body>
+
+<h1>Thymeleaf Image Embedding</h1>
+<!-- 方法1: Base64形式で画像を埋め込む -->
+<!--<img th:src="${'data:image/png;base64,' + user.icon}"/>-->
+<!--<img th:src="'data:image/png;base64,' + ${user.icon}" alt="User Icon" />-->
+
+
+<tr th:each="member : ${members}">
+    <img th:src="'data:image/png;base64,' + ${member.icon}" alt="member Icon" />
+</tr>
+
+
 
 </body>
 </html>

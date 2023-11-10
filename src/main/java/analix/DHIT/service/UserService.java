@@ -5,6 +5,8 @@ import analix.DHIT.model.User;
 import analix.DHIT.repository.UserRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class UserService {
 
@@ -23,5 +25,10 @@ public class UserService {
         }
         return user;
     }
+
+    public List<User> getAllMember(){
+        return this.userRepository.selectAllMember();
+    }
+
 
 }

@@ -5,6 +5,8 @@ import analix.DHIT.model.User;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 
 public class MysqlUserRepository implements UserRepository {
@@ -21,4 +23,8 @@ public class MysqlUserRepository implements UserRepository {
         return this.userMapper.findByEmployeeCode(employeeCode);
     }
 
+    @Override
+    public List<User> selectAllMember() {
+        return this.userMapper.selectAllMember();
+    }
 }
