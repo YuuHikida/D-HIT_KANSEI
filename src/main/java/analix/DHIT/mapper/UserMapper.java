@@ -9,4 +9,5 @@ public interface UserMapper {
 
     @Select("SELECT * FROM user WHERE employee_code = #{employeeCode}")
     User findByEmployeeCode(int employeeCode);
+    //↑戻り値はUser
 }

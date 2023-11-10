@@ -1,7 +1,6 @@
 package analix.DHIT.model;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.LocalTime;
 
 public class Report {
@@ -13,9 +12,9 @@ public class Report {
     private LocalDate date;
     private LocalTime endTime;
     private LocalTime startTime;
-    private Boolean isBehideTime;
-    private String behideReason;
-    private Boolean isLeavingEarly;
+    private Boolean isLateness;
+    private String latenessReason;
+    private Boolean isLeftEarly;
 
     public int getId() {
         return id;
@@ -83,27 +82,27 @@ public class Report {
     }
 
     public Boolean getBehideTime() {
-        return isBehideTime;
+        return isLateness;
     }
 
     public void setBehideTime(Boolean behideTime) {
-        isBehideTime = behideTime;
+        isLateness = behideTime;
     }
 
-    public String getBehideReason() {
-        return behideReason;
+    public String getLatenessReason() {
+        return latenessReason;
     }
 
-    public void setBehideReason(String behideReason) {
-        this.behideReason = behideReason;
+    public void setLatenessReason(String latenessReason) {
+        this.latenessReason = latenessReason;
     }
 
     public Boolean getLeavingEarly() {
-        return isLeavingEarly;
+        return isLeftEarly;
     }
 
     public void setLeavingEarly(Boolean leavingEarly) {
-        isLeavingEarly = leavingEarly;
+        isLeftEarly = leavingEarly;
     }
 
 }

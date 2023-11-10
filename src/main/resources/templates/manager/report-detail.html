@@ -14,13 +14,13 @@
 <p>退勤時間:<span th:text="${endTime}"></span></p>
 <p><span th:text="${impressions}"></span></p>
 <p>明日の予定 :<span th:text="${tomorrowSchedule}"></span></p>
-<p>遅刻していますか？<span th:text="${isBehindTime}"></span></p>
-<p><span th:text="${behideReason}"></span></p>
-<p>早退してますか？<span th:text="${isLeavingEarly}"></span></p>
+<p>遅刻していますか？<span th:text="${isLateness}"></span></p>
+<p><span th:text="${latenessReason}"></span></p>
+<p>早退してますか？<span th:text="${isLeftEarly}"></span></p>
 
 <tr th:each="task : ${tasks}">
     <p>
-    <td th:text="${task.taskName}"></td>
+    <td th:text="${task.name}"></td>
     <td th:text="${'進捗率:' + task.progressRate + '%'}"></td>
     </p>
 </tr>

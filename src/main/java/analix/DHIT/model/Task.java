@@ -3,7 +3,7 @@ package analix.DHIT.model;
 public class Task {
     private int id;
     private int employeeCode;
-    private String taskName;
+    private String name;
     private int progressRate;
 
     public int getId() {
@@ -22,12 +22,12 @@ public class Task {
         this.employeeCode = employeeCode;
     }
 
-    public String getTaskName() {
-        return taskName;
+    public String getName() {
+        return name;
     }
 
-    public void setTaskName(String taskName) {
-        this.taskName = taskName;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public int getProgressRate() {

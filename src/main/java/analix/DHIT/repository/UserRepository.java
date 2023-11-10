@@ -4,6 +4,6 @@ import analix.DHIT.model.User;
 
 public interface UserRepository {
 
-    //これをinterfaceにしたのは他でEmployeeCodeを利用する為？
+    //コードの保守性
     User findByEmployeeCode(int employeeCode);
 }

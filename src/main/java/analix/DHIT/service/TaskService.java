@@ -1,8 +1,6 @@
 package analix.DHIT.service;
 
-import analix.DHIT.exception.TaskNotFoundException;
-import analix.DHIT.exception.UserNotFoundException;
-import analix.DHIT.mapper.BusinessReportTaskLink;
+import analix.DHIT.mapper.ReportTaskLink;
 import analix.DHIT.model.Task;
 import analix.DHIT.repository.TaskRepository;
 import org.springframework.stereotype.Service;
@@ -13,9 +11,9 @@ import java.util.List;
 @Service
 public class TaskService {
     private final TaskRepository taskRepository;
-    private final BusinessReportTaskLink businessReportTaskLink;
+    private final ReportTaskLink businessReportTaskLink;
 
-    public TaskService(TaskRepository taskRepository, BusinessReportTaskLink businessReportTaskLink) {
+    public TaskService(TaskRepository taskRepository, ReportTaskLink businessReportTaskLink) {
         this.taskRepository = taskRepository;
         this.businessReportTaskLink = businessReportTaskLink;
     }

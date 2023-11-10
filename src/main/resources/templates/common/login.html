@@ -1,10 +1,12 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
 </head>
 <body>
-
+<form method="POST" th:action="@{/board}" th:object="${commentForm}">
+    <!-- ここにフォームの中身を追加 -->
+</form>
 </body>
 </html>
