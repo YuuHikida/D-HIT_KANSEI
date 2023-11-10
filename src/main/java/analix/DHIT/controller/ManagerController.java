@@ -12,7 +12,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @Controller
@@ -33,20 +32,29 @@ public class ManagerController {
 
     @GetMapping("/manager/report-search")
     //↑エンドポイント　　　　　　　　　　/manager/report-search?employeeCode=1　　
-    public String displayReportSearch(@RequestParam(name = "employeeCode", required = true) int employeeCode, Model model) {
+    public String displayReportSearch(
+            @RequestParam(name = "employeeCode", required = true) int employeeCode,
+            Model model,
+            ReportSearchInput reportSearchInput
+    ) {
         User user = userService.getUserByEmployeeCode(employeeCode);
 
         // コントローラ内でリクエスト属性を設定
         model.addAttribute("memberName", user.getName());
         model.addAttribute("employeeCode", user.getEmployeeCode());
         model.addAttribute("reportSearchInput", new ReportSearchInput());
-
+        model.addAttribute("error",model.getAttribute("error"));
         return "manager/report-search";
     }
 
     @PostMapping("/manager/search-report")
     public String searchReport(ReportSearchInput reportSearchInput, RedirectAttributes redirectAttributes) {
-        int report_id = reportService.searchId(reportSearchInput.getEmployeeCode(), reportSearchInput.getDate());
+        String report_id = reportService.searchId(reportSearchInput.getEmployeeCode(), reportSearchInput.getDate());
+        if(report_id == null)
+        {
+            redirectAttributes.addFlashAttribute("error", "ヒットしませんでした");
+            return "redirect:/manager/report-search?employeeCode=" + reportSearchInput.getEmployeeCode();
+        }
         redirectAttributes.addAttribute("report_id", report_id);
         //DBにあるデータを参考に個人詳細ページのデータを渡す
         return "redirect:/manager/reports/{report_id}";
@@ -57,6 +65,7 @@ public class ManagerController {
     public String displayReportDetail(@PathVariable("report_id") int reportId, Model model) {
 
         Report report = reportService.getReportById(reportId);
+        System.out.println(report.getEmployeeCode());
         List<Task> tasks = taskService.getTasksByReportId(reportId);
         User user = userService.getUserByEmployeeCode(report.getEmployeeCode());
 
@@ -70,9 +79,9 @@ public class ManagerController {
         model.addAttribute("tomorrowSchedule",report.getTomorrowSchedule());
         //名前を入れる
         model.addAttribute("memberName",user.getName());
-        model.addAttribute("isBehindTime",report.getBehideTime());
-        model.addAttribute("behideReason",report.getBehideReason());
-        model.addAttribute("isLeavingEarly",report.getLeavingEarly());
+        model.addAttribute("isLateness",report.getBehideTime());
+        model.addAttribute("latenessReason",report.getLatenessReason());
+        model.addAttribute("isLeftEarly",report.getLeavingEarly());
 
         return "manager/report-detail";
     }

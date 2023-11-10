@@ -10,11 +10,15 @@
     <h1>
         <form action="#" th:action="@{/manager/search-report}" th:object="${reportSearchInput}" method="post">
             <label for="date">日付を選択:</label>
-            <input type ="hidden" name="employeeCode" th:value="${employeeCode}" th:filed="*{employeeCode}">
-            <input type="date" id="date" name="date" value="" th:filed="*{date}"/>
+            <input type ="hidden" name="employeeCode" th:value="${employeeCode}"/>
+            <input type="date" id="date" name="date" value="" />
 
             <!-- ボタンを作成 -->
             <input type="submit" value="検索"/>
+            <div th:if="${error != null}">
+                <p style="color: red;" th:text="${error}"></p>
+            </div>
+
         </form>
     </h1>
 

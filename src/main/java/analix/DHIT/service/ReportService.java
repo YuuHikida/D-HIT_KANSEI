@@ -6,6 +6,7 @@ import analix.DHIT.model.Report;
 import analix.DHIT.repository.ReportRepository;
 import org.springframework.stereotype.Service;
 
+import java.sql.SQLOutput;
 import java.time.LocalDate;
 
 @Service
@@ -19,22 +20,16 @@ public class ReportService {
         this.reportMapper = reportMapper;
         this.reportRepository=reportRepository;
     }
-    public int searchId(int employeeCode, LocalDate date)
+    public String searchId(int employeeCode, LocalDate date)
     {
-
-        String reportId= reportMapper.selectIdByEmployeeCodeAndDate(employeeCode,date);
-        if(reportId==null)
-        {
-            throw new ReportNotFoundException("Report Not Found");
-        }
-        //intに変換nullチェック逃れ
-        return Integer.parseInt(reportId);
+        return reportMapper.selectIdByEmployeeCodeAndDate(employeeCode,date);
     }
     public Report getReportById(int reportId)
     {
         Report report=reportRepository.findById(reportId);
         if(report==null)
         {
+            System.out.println("koko");
             throw new ReportNotFoundException("Report Not Found");
         }
         return report;
