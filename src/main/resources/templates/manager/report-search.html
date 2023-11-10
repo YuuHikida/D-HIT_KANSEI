@@ -2,25 +2,33 @@
 <html lang="ja" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <title>Greeting Page</title>
+    <link th:href="@{/css/report-search.css}" rel="stylesheet" >
+    <meta charset="UTF-8">
 </head>
 <body>
-<h1>
-    <span th:text="${memberName}"></span>
-</h1>
-<h1>
+<div class="flex">
+<div class="left">社員名</div>
+<div class="right" th:text="${memberName}"></div>
+</div>
+
+
+<div class="flex2">
     <form action="#" th:action="@{/manager/search-report}" th:object="${reportSearchInput}" method="post">
-        <label for="date">日付を選択:</label>
+        <div class="left"><label for="date">日付を選択:</label></div>
+
         <input type ="hidden" name="employeeCode" th:value="${employeeCode}"/>
-        <input type="date" id="date" name="date" value="" />
+        <div class="right"><input type="date" id="date" name="date" value="" />
+        </div>
 
         <!-- ボタンを作成 -->
+
         <input type="submit" value="検索"/>
         <div th:if="${error != null}">
             <p style="color: red;" th:text="${error}"></p>
         </div>
 
     </form>
-</h1>
+</div>
 
 </body>
 </html>
