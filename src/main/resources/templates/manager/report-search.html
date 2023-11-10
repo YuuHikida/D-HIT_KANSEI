@@ -1,22 +1,70 @@
 <!DOCTYPE html>
-<html lang ="ja">
+<html lang ="en">
 <head>
+    <meta charset="UTF-8">
     <title>Greeting Page</title>
+    <style>
+        body {
+                font-family: "メイリオ" ;
+              }
+
+         .employeeTable{
+          position:  absolute;        /* 要素の配置方法を指定 */
+          padding:  20px;             /* 余白指定 */
+          right:  700px;                /* 右からの位置指定 */
+          top: 250px;                  /* 上からの位置指定 */
+
+        }
+
+        .dateTable{
+          position:  absolute;        /* 要素の配置方法を指定 */
+          padding:  20px;             /* 余白指定 */
+          right:  550px;                /* 右からの位置指定 */
+          top: 350px;                  /* 上からの位置指定 */
+        }
+        .left{
+        background-color: #CAE8E2;
+        }
+
+        input[type="submit"] {
+          position:  absolute;        /* 要素の配置方法を指定 */
+          background-color: #CAE8E2;     /* 背景色指定 */
+          padding:  10px;             /* 余白指定 */
+          right:  570px;                /* 右からの位置指定 */
+          top: 500px;
+          width:200px;
+          height:50px;
+          border-radius:10px;/* 上からの位置指定 */
+}
+
+
+    </style>
 </head>
 <body>
-    <h1>
-    <span th:text="${memberName}"></span>
-    </h1>
-    <h1>
+<table class = employeeTable >
+    <tr>
+        <td class = left>社員名</td>
+        <td th:text="${memberName}"></td>
+    </tr>git
+</table>
+
+<table class = dateTable >
+
         <form action="#" th:action="@{/manager/search-report}" th:object="${reportSearchInput}" method="post">
-            <label for="date">日付を選択:</label>
+            <tr> <td class = left><label for="date">日付を選択:</label></td>
+                <td>
             <input type ="hidden" name="employeeCode" th:value="${employeeCode}" th:filed="*{employeeCode}">
             <input type="date" id="date" name="date" value="" th:filed="*{date}"/>
-
+                </td>
             <!-- ボタンを作成 -->
-            <input type="submit" value="検索"/>
         </form>
-    </h1>
+    </tr>
+</table>
+
+        <input type="submit" value="検索"  />
+
+
+
 
 </body>
 </html>
