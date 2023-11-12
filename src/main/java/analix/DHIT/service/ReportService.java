@@ -14,22 +14,18 @@ public class ReportService {
     private final ReportMapper reportMapper;
     private final ReportRepository reportRepository;
 
-
-    public ReportService(ReportMapper reportMapper,ReportRepository reportRepository)
-    {
+    public ReportService(ReportMapper reportMapper, ReportRepository reportRepository) {
         this.reportMapper = reportMapper;
-        this.reportRepository=reportRepository;
+        this.reportRepository = reportRepository;
     }
-    public String searchId(int employeeCode, LocalDate date)
-    {
-        return reportMapper.selectIdByEmployeeCodeAndDate(employeeCode,date);
+
+    public String searchId(int employeeCode, LocalDate date) {
+        return reportMapper.selectIdByEmployeeCodeAndDate(employeeCode, date);
     }
-    public Report getReportById(int reportId)
-    {
-        Report report=reportRepository.findById(reportId);
-        if(report==null)
-        {
-            System.out.println("koko");
+
+    public Report getReportById(int reportId) {
+        Report report = reportRepository.findById(reportId);
+        if (report == null) {
             throw new ReportNotFoundException("Report Not Found");
         }
         return report;

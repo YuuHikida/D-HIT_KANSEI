@@ -13,18 +13,22 @@ public class MysqlUserRepository implements UserRepository {
 
     private final UserMapper userMapper;
 
-    public MysqlUserRepository(UserMapper userMapper)
-    {
-      this.userMapper=userMapper;
+    public MysqlUserRepository(UserMapper userMapper) {
+        this.userMapper = userMapper;
     }
+
     @Override
-    public User findByEmployeeCode(int employeeCode)
-    {
+    public User selectByEmployeeCode(int employeeCode) {
         return this.userMapper.findByEmployeeCode(employeeCode);
     }
 
     @Override
     public List<User> selectAllMember() {
         return this.userMapper.selectAllMember();
+    }
+
+    @Override
+    public List<User> selectMemberBySearchCharacters(String searchCharacters){
+        return this.userMapper.selectMemberBySearchCharacters(searchCharacters);
     }
 }

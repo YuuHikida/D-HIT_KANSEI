@@ -1,22 +1,30 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<html lang="ja" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>業務報告書詳細</title>
 </head>
 <body>
 <h1>
     業務報告書詳細ページ
 </h1>
-<p><span th:text="${memberName}"></span></p>
-<p><span th:text="${date}"></span></p>
-<p>出勤時間:<span th:text="${startTime}"></span></p>
-<p>退勤時間:<span th:text="${endTime}"></span></p>
-<p><span th:text="${impressions}"></span></p>
-<p>明日の予定 :<span th:text="${tomorrowSchedule}"></span></p>
-<p>遅刻していますか？<span th:text="${isLateness}"></span></p>
-<p><span th:text="${latenessReason}"></span></p>
-<p>早退してますか？<span th:text="${isLeftEarly}"></span></p>
+
+<img th:src="'data:image/png;base64,' + ${member.icon}" alt="member Icon" />
+<p><span th:text="${member.name}"></span></p>
+<p><span th:text="${report.date}"></span></p>
+<p>出勤時間:<span th:text="${report.startTime}"></span></p>
+<p>退勤時間:<span th:text="${report.endTime}"></span></p>
+<p><span th:text="${report.impressions}"></span></p>
+<p>明日の予定 :<span th:text="${report.tomorrowSchedule}"></span></p>
+
+<div th:if="${report.isLateness}">
+    <p style="color: red;" >遅刻</p>
+    <p><span th:text="${report.latenessReason}"></span></p>
+</div>
+
+<div th:if="${report.isLeftEarly}">
+    <p style="color: red;" >早退</p>
+</div>
 
 <tr th:each="task : ${tasks}">
     <p>

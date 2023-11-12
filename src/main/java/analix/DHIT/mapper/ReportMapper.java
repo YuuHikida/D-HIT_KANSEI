@@ -8,11 +8,8 @@ import java.time.LocalDate;
 
 @Mapper
 public interface ReportMapper {
-
     @Select("SELECT id FROM report WHERE employee_code = #{employeeCode} and date= #{date}")
-    //いったん文字列で受け取ります
-    String selectIdByEmployeeCodeAndDate(int employeeCode,LocalDate date);
-
+    String selectIdByEmployeeCodeAndDate(int employeeCode, LocalDate date);
 
     @Select("SELECT * FROM  report WHERE id = #{reportId}")
     Report SelectById(int reportId);

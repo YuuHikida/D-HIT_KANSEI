@@ -6,7 +6,7 @@ import org.apache.ibatis.annotations.Select;
 import java.util.List;
 
 @Mapper
-public interface ReportTaskLink {
+public interface ReportTaskLinkMapper {
 
     @Select("SELECT task_id FROM  report_task_link WHERE report_id = #{reportId}")
     List<Integer> selectAllTaskIdByReportId(int reportId);

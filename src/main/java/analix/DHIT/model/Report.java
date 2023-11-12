@@ -81,12 +81,12 @@ public class Report {
         this.endTime = endTime;
     }
 
-    public Boolean getBehideTime() {
+    public Boolean getIsLateness() {
         return isLateness;
     }
 
-    public void setBehideTime(Boolean behideTime) {
-        isLateness = behideTime;
+    public void setIsLateness(Boolean lateness) {
+        isLateness = lateness;
     }
 
     public String getLatenessReason() {
@@ -97,12 +97,11 @@ public class Report {
         this.latenessReason = latenessReason;
     }
 
-    public Boolean getLeavingEarly() {
+    public Boolean getIsLeftEarly() {
         return isLeftEarly;
     }
 
-    public void setLeavingEarly(Boolean leavingEarly) {
-        isLeftEarly = leavingEarly;
+    public void setIsLeftEarly(Boolean leftEarly) {
+        isLeftEarly = leftEarly;
     }
-
 }
