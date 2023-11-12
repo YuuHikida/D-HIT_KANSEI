@@ -7,12 +7,11 @@ public class User {
     private String role;
     private String icon;
 
-    public int getEmployeeCode()
-    {
+    public int getEmployeeCode() {
         return employeeCode;
     }
-    public void setEmployeeCode(int employeeCode)
-    {
+
+    public void setEmployeeCode(int employeeCode) {
         this.employeeCode = employeeCode;
     }
 
@@ -47,5 +46,16 @@ public class User {
     public void setIcon(String icon) {
         this.icon = icon;
     }
-}
 
+    @Override
+    public String toString() {
+        return "User{" +
+                "password:"+password+'\''+
+                "role:"+role+'\'' +
+                ", name=:'" + name + '\'' +
+                ", employeeCode=" + employeeCode +'\'' +
+                " icon=" + icon +
+                // 他のフィールドに対する表示を追加
+                '}';
+    }
+}

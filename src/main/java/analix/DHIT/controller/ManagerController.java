@@ -29,17 +29,21 @@ public class ManagerController {
         this.reportService = reportService;
         this.taskService = taskService;
     }
-
     @GetMapping("/manager/home")
 
     public String displayHome(
             Model model
     ) {
         List<User> members = userService.getAllMember();
+        //↓確認用
+        for (User member : members) {
+            System.out.println(member);
+        }
         model.addAttribute("members", members);
+        //次のページへemployeeCodeを飛ばす
+
         return "manager/home";
     }
-
 
     @GetMapping("/manager/report-search")
     //↑エンドポイント　　　　　　　　　　/manager/report-search?employeeCode=1　　
@@ -55,14 +59,14 @@ public class ManagerController {
         model.addAttribute("employeeCode", user.getEmployeeCode());
         model.addAttribute("reportSearchInput", new ReportSearchInput());
         model.addAttribute("error",model.getAttribute("error"));
+
         return "manager/report-search";
     }
 
     @PostMapping("/manager/search-report")
     public String searchReport(ReportSearchInput reportSearchInput, RedirectAttributes redirectAttributes) {
         String report_id = reportService.searchId(reportSearchInput.getEmployeeCode(), reportSearchInput.getDate());
-        if(report_id == null)
-        {
+        if(report_id == null) {
             redirectAttributes.addFlashAttribute("error", "ヒットしませんでした");
             return "redirect:/manager/report-search?employeeCode=" + reportSearchInput.getEmployeeCode();
         }

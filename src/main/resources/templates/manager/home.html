@@ -11,10 +11,36 @@
 <!--<img th:src="${'data:image/png;base64,' + user.icon}"/>-->
 <!--<img th:src="'data:image/png;base64,' + ${user.icon}" alt="User Icon" />-->
 
+<!--&lt;!&ndash;↓片川さんの記述&ndash;&gt;-->
+<!--<tr th:each="member : ${members}">-->
+<!--    <img th:src="'data:image/png;base64,' + ${member.icon}" alt="member Icon" />-->
+<!--    <p th:text="'name:'+${member.name}"></p>-->
+<!--</tr>-->
 
+<!-- Iconクリックして日付選択urlに飛ぶ処理 -->
+<!--<tr th:each="member : ${members}">-->
+<!--&lt;!&ndash;    ダメだったコード↓&ndash;&gt;-->
+<!--    &lt;!&ndash;    <a th:href="@{/manager/search-report(employeeCode=${member.employeeCode})}">&ndash;&gt;-->
+<!--    &lt;!&ndash;        <img th:src="'data:image/png;base64,' + ${member.icon}" alt="member Icon" />&ndash;&gt;-->
+<!--    &lt;!&ndash;        <p th:text="'name:'+${member.name}"></p>&ndash;&gt;-->
+<!--&lt;!&ndash;    <a th:href="@{/manager/reports/{employeeCode}(employeeCode=${member.employeeCode})}">&ndash;&gt;-->
+<!--    <a th:href="@{/manager/search-report}" th:object="${reportSearchInput}"method="post">-->
+<!--        <img th:src="'data:image/png;base64,' + ${member.icon}" alt="member Icon" />-->
+<!--        <p th:text="'name:' + ${member.name}"></p>-->
+<!--    </a>-->
+
+<!--    </a>-->
+<!--</tr>-->
 <tr th:each="member : ${members}">
-    <img th:src="'data:image/png;base64,' + ${member.icon}" alt="member Icon" />
+    <form th:action="@{/manager/search-report}" th:object="${reportSearchInput}" method="post">
+        <input type="hidden" th:name="employeeCode" th:value="${member.employeeCode}" />
+        <a href="javascript:;" onclick="this.parentNode.submit();">
+            <img th:src="'data:image/png;base64,' + ${member.icon}" alt="member Icon" />
+            <p th:text="'name:' + ${member.name}"></p>
+        </a>
+    </form>
 </tr>
+
 
 
 
