@@ -113,6 +113,9 @@ public class ManagerController {
         model.addAttribute("tasks", tasks);
         model.addAttribute("member", member);
 
+        String date = report.getDate().format(DateTimeFormatter.ofPattern("yyyy年M月d日(E)", Locale.JAPANESE));
+        model.addAttribute("date", date);
+
         return "manager/report-detail";
     }
 

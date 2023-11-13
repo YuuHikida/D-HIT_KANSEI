@@ -4,8 +4,8 @@
 ## ローカル開発
 
 * ローカルDBへの接続設定  
-以下設定ファイルのDB接続情報を書き換えてください。
-src/main/resources/application-development.properties
+以下設定ファイルを参考にapplication-development.propertiesを作成してください。
+src/main/resources/application-development-sample.properties
 
 ```
 spring.datasource.url=jdbc:mysql://localhost:XXXX/database_name
