@@ -7,6 +7,8 @@ public class ReportSearchInput {
     private int employeeCode;
 
     private LocalDate date;
+
+    private int someNumber =1;
     public int getEmployeeCode() {
         return employeeCode;
 
@@ -22,5 +24,13 @@ public class ReportSearchInput {
 
     public void setDate(LocalDate date) {
         this.date = date;
+    }
+
+    public void setSomeNumber(int someNumber) {
+        this.someNumber = someNumber;
+    }
+
+    public int getSomeNumber() {
+        return someNumber;
     }
 }

@@ -40,7 +40,7 @@ public class ManagerController {
             System.out.println(member);
         }
         model.addAttribute("members", members);
-        //次のページへemployeeCodeを飛ばす
+
 
         return "manager/home";
     }
