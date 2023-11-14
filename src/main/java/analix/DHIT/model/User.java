@@ -1,5 +1,7 @@
 package analix.DHIT.model;
 
+import java.util.List;
+
 public class User {
     private int employeeCode;
     private String name;
@@ -46,6 +48,10 @@ public class User {
 
     public void setIcon(String icon) {
         this.icon = icon;
+    }
+
+    public List<String> roleList() {
+        return List.of(getRole());
     }
 }
 
