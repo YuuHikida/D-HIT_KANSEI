@@ -32,4 +32,12 @@ public class UserService {
         return this.userRepository.selectMemberBySearchCharacters(searchCharacters);
     }
 
+    // 全てのユーザを返すメソッド
+
+    // ユーザーを登録するメソッド
+
+    // ユーザーを更新するメソッド
+
+    // ユーザーを削除するメソッド
+
 }

@@ -5,6 +5,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.crypto.password.MessageDigestPasswordEncoder;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
@@ -17,10 +18,7 @@ public class SecurityConfig {
 
     @Bean
     public PasswordEncoder passwordEncoder() {
-//        return new BCryptPasswordEncoder();
-
-        // 平文のまま扱う（セキュリティ上のリスクがあるので慎重に使用する）
-        return NoOpPasswordEncoder.getInstance();
+        return new MessageDigestPasswordEncoder("SHA-256");
     }
 
     @Bean
@@ -38,6 +36,8 @@ public class SecurityConfig {
         ).authorizeHttpRequests(auth -> auth
                 .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
                 .requestMatchers("/login").permitAll()
+                .requestMatchers("/manager/**").hasRole("MANAGER")
+                .requestMatchers("/member/**").hasRole("MEMBER")
                 .anyRequest().authenticated()
         );
         return http.build();
