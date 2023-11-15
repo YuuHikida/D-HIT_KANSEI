@@ -113,12 +113,10 @@ public class ManagerController {
         model.addAttribute("tasks", tasks);
         model.addAttribute("member", member);
 
-<<<<<<< HEAD
-=======
+
         model.addAttribute("beforeReportId", reportService.getBeforeIdById(reportId));
         model.addAttribute("afterReportId", reportService.getAfterIdById(reportId));
 
->>>>>>> 904382eb5e9dcad171c624fe2b02591eb19deedd
         String date = report.getDate().format(DateTimeFormatter.ofPattern("yyyy年M月d日(E)", Locale.JAPANESE));
         model.addAttribute("date", date);
 

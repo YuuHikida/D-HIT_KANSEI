@@ -34,35 +34,32 @@ public class UserService {
     PasswordEncoder passwordEncoder;
 
 
-
-    public UserService(UserRepository userRepository)
-    {
-        this.userRepository=userRepository;
-
-    }
-
-        public User getUserByEmployeeCode(int employeeCode) {
-
-    private final UserRepository userRepository;
-
     public UserService(UserRepository userRepository) {
         this.userRepository = userRepository;
+
     }
 
     public User getUserByEmployeeCode(int employeeCode) {
-        User user = this.userRepository.selectByEmployeeCode(employeeCode);
-        if (user == null) {
-            throw new UserNotFoundException("User Not Found");
+        private final UserRepository userRepository;
+
+    public UserService(UserRepository userRepository) {
+            this.userRepository = userRepository;
         }
-        return user;
-    }
+
+        public User getUserByEmployeeCode ( int employeeCode){
+            User user = this.userRepository.selectByEmployeeCode(employeeCode);
+            if (user == null) {
+                throw new UserNotFoundException("User Not Found");
+            }
+            return user;
+        }
 
 
-        /**
+        /*
          * ユーザー情報 新規登録
          * @param userCreate ユーザー情報
          */
-        public void create(UserCreate userCreate) {
+        public void create (UserCreate userCreate){
 
             User user = new User();
             user.setName(userCreate.getName());
@@ -91,13 +88,13 @@ public class UserService {
         }
 
 
-        public List<User> getAllMember() {
-        return this.userRepository.selectAllMember();
-    }
+        public List<User> getAllMember () {
+            return this.userRepository.selectAllMember();
+        }
 
-        public List<User> getMemberBySearchCharacters(String searchCharacters) {
-        return this.userRepository.selectMemberBySearchCharacters(searchCharacters);
-    }
+        public List<User> getMemberBySearchCharacters (String searchCharacters){
+            return this.userRepository.selectMemberBySearchCharacters(searchCharacters);
+        }
 
         // 全てのユーザを返すメソッド
 
