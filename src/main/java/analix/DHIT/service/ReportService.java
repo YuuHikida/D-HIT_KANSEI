@@ -1,6 +1,7 @@
 package analix.DHIT.service;
 
 import analix.DHIT.exception.ReportNotFoundException;
+import analix.DHIT.input.ReportCreateInput;
 import analix.DHIT.mapper.ReportMapper;
 import analix.DHIT.model.Report;
 import analix.DHIT.repository.ReportRepository;
@@ -8,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import java.sql.SQLOutput;
 import java.time.LocalDate;
+import java.time.LocalTime;
 
 @Service
 public class ReportService {
@@ -37,6 +39,41 @@ public class ReportService {
 
     public String getAfterIdById(int reportId) {
         return reportMapper.selectAfterIdById(reportId);
+    }
+
+    public String getLatestIdByEmployeeCode(int employeeCode) {
+        return reportMapper.selectLatestIdByEmployeeCode(employeeCode);
+    }
+
+    public int create(
+            int employeeCode,
+            String condition,
+            String impressions,
+            String tomorrowSchedule,
+            LocalDate date,
+            LocalTime endTime,
+            LocalTime startTime,
+            boolean isLateness,
+            String latenessReason,
+            boolean isLeftEarly
+    ){
+
+        Report newReport = new Report();
+        newReport.setEmployeeCode(employeeCode);
+        newReport.setCondition(condition);
+        newReport.setImpressions(impressions);
+        newReport.setTomorrowSchedule(tomorrowSchedule);
+        newReport.setDate(date);
+        newReport.setEndTime(endTime);
+        newReport.setStartTime(startTime);
+        newReport.setIsLateness(isLateness);
+        newReport.setLatenessReason(latenessReason);
+        newReport.setIsLeftEarly(isLeftEarly);
+
+        this.reportRepository.save(newReport);
+
+        return newReport.getId();
+
     }
 
 }

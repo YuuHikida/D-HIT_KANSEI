@@ -92,7 +92,6 @@
         </div>
     </div>
 
-    <!--    <a th:href="@{'/manager/report-search?employeeCode=' + ${member.employeeCode}}">-->
 
     <div class="section text-center">
         <div class="row">
@@ -106,9 +105,9 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <tr th:each="task : ${tasks}" class="task">
-                        <td th:text="${task.name}" style="word-wrap: break-word; max-width: 200px;"></td>
-                        <td class="progress-rate" th:text="${task.progressRate + '%'}"></td>
+                    <tr th:each="taskLog : ${taskLogs}" class="task">
+                        <td th:text="${taskLog.name}" style="word-wrap: break-word; max-width: 200px;"></td>
+                        <td class="progress-rate" th:text="${taskLog.progressRate + '%'}"></td>
                     </tr>
                     </tbody>
                 </table>
