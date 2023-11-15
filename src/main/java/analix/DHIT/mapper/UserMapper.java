@@ -22,4 +22,5 @@ public interface UserMapper {
     @Insert("INSERT INTO USER(EmployeeCode,Name,Password,Role,Icon)"
             + "VALUES(#{EmployeeCode},#{Name},#{Password},#{Role},#{Icon})")
     User insert(User User);
+
 }

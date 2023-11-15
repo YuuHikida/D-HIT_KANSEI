@@ -2,6 +2,9 @@ package analix.DHIT.service;
 
 import analix.DHIT.exception.UserNotFoundException;
 import analix.DHIT.input.UserCreate;
+
+import analix.DHIT.input.MemberSearchInput;
+
 import analix.DHIT.model.User;
 import analix.DHIT.repository.UserRepository;
 import org.apache.commons.io.FileUtils;
@@ -15,6 +18,8 @@ import java.io.IOException;
 import java.util.Base64;
 import java.util.List;
 
+
+import java.util.List;
 
 @Service
 @Transactional(rollbackFor = Exception.class)
@@ -37,6 +42,14 @@ public class UserService {
     }
 
         public User getUserByEmployeeCode(int employeeCode) {
+
+    private final UserRepository userRepository;
+
+    public UserService(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
+
+    public User getUserByEmployeeCode(int employeeCode) {
         User user = this.userRepository.selectByEmployeeCode(employeeCode);
         if (user == null) {
             throw new UserNotFoundException("User Not Found");
@@ -96,3 +109,21 @@ public class UserService {
 
 
     }
+
+    public List<User> getAllMember() {
+        return this.userRepository.selectAllMember();
+    }
+
+    public List<User> getMemberBySearchCharacters(String searchCharacters) {
+        return this.userRepository.selectMemberBySearchCharacters(searchCharacters);
+    }
+
+    // 全てのユーザを返すメソッド
+
+    // ユーザーを登録するメソッド
+
+    // ユーザーを更新するメソッド
+
+    // ユーザーを削除するメソッド
+
+}

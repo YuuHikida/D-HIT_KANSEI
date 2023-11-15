@@ -31,4 +31,12 @@ public class ReportService {
         return report;
     }
 
+    public String getBeforeIdById(int reportId) {
+        return reportMapper.selectBeforeIdById(reportId);
+    }
+
+    public String getAfterIdById(int reportId) {
+        return reportMapper.selectAfterIdById(reportId);
+    }
+
 }
