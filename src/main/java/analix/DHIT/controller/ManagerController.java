@@ -1,5 +1,6 @@
 package analix.DHIT.controller;
 
+import analix.DHIT.input.MemberSearchInput;
 import analix.DHIT.input.ReportSearchInput;
 import analix.DHIT.model.Report;
 import analix.DHIT.model.Task;
@@ -7,81 +8,113 @@ import analix.DHIT.model.User;
 import analix.DHIT.service.ReportService;
 import analix.DHIT.service.TaskService;
 import analix.DHIT.service.UserService;
+import org.springframework.boot.Banner;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeFormatterBuilder;
 import java.util.List;
+import java.util.Locale;
 
 @Controller
-//@RequestMapping("/manager")
+@RequestMapping("/manager")
 public class ManagerController {
 
     private final UserService userService;
     private final ReportService reportService;
     private final TaskService taskService;
 
-    //springが自動でインスタンスを作るのを利用して
-    //UserServiceを提供しているのか？
-    public ManagerController(UserService userservice, ReportService reportService, TaskService taskService) {
+    public ManagerController(
+            UserService userservice,
+            ReportService reportService,
+            TaskService taskService
+    ) {
         this.userService = userservice;
         this.reportService = reportService;
         this.taskService = taskService;
     }
 
-    @GetMapping("/manager/report-search")
-    //↑エンドポイント　　　　　　　　　　/manager/report-search?employeeCode=1　　
+    @GetMapping("/home")
+    public String displayHome(
+            Model model,
+            @RequestParam(name = "searchCharacters", required = false) String searchCharacters
+    ) {
+        String today = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy年M月d日(E)", Locale.JAPANESE));
+        model.addAttribute("today", today);
+
+        if (searchCharacters==null){
+            model.addAttribute("members", userService.getAllMember());
+            model.addAttribute("memberSearchInput", new MemberSearchInput());
+            return "manager/home";
+        }
+
+        model.addAttribute("members", model.getAttribute("members"));
+        model.addAttribute("memberSearchInput", new MemberSearchInput().withSearchCharacters(searchCharacters));
+        return "manager/home";
+    }
+
+    @PostMapping("/search-member")
+    public String searchMember(
+            MemberSearchInput memberSearchInput,
+            RedirectAttributes redirectAttributes
+    ) {
+        List<User> members = userService.getMemberBySearchCharacters(memberSearchInput.getSearchCharacters());
+        redirectAttributes.addFlashAttribute("members", members);
+        redirectAttributes.addAttribute("searchCharacters", memberSearchInput.getSearchCharacters());
+
+        return "redirect:/manager/home";
+    }
+
+    @GetMapping("/report-search")
     public String displayReportSearch(
             @RequestParam(name = "employeeCode", required = true) int employeeCode,
-            Model model,
-            ReportSearchInput reportSearchInput
+            Model model
     ) {
-        User user = userService.getUserByEmployeeCode(employeeCode);
+        User member = userService.getUserByEmployeeCode(employeeCode);
 
-        // コントローラ内でリクエスト属性を設定
-        model.addAttribute("memberName", user.getName());
-        model.addAttribute("employeeCode", user.getEmployeeCode());
+        model.addAttribute("member", member);
         model.addAttribute("reportSearchInput", new ReportSearchInput());
-        model.addAttribute("error",model.getAttribute("error"));
+        model.addAttribute("error", model.getAttribute("error"));
+
         return "manager/report-search";
     }
 
-    @PostMapping("/manager/search-report")
-    public String searchReport(ReportSearchInput reportSearchInput, RedirectAttributes redirectAttributes) {
-        String report_id = reportService.searchId(reportSearchInput.getEmployeeCode(), reportSearchInput.getDate());
-        if(report_id == null)
-        {
+    @PostMapping("/search-report")
+    public String searchReport(
+            ReportSearchInput reportSearchInput,
+            RedirectAttributes redirectAttributes
+    ) {
+        String reportId = reportService.searchId(
+                reportSearchInput.getEmployeeCode(),
+                reportSearchInput.getDate()
+        );
+
+        if (reportId == null) {
             redirectAttributes.addFlashAttribute("error", "ヒットしませんでした");
             return "redirect:/manager/report-search?employeeCode=" + reportSearchInput.getEmployeeCode();
         }
-        redirectAttributes.addAttribute("report_id", report_id);
-        //DBにあるデータを参考に個人詳細ページのデータを渡す
-        return "redirect:/manager/reports/{report_id}";
+
+        redirectAttributes.addAttribute("reportId", reportId);
+        return "redirect:/manager/reports/{reportId}";
     }
 
-    @GetMapping("/manager/reports/{report_id}")
-    //PathVariableはpathを受け取ってくる
-    public String displayReportDetail(@PathVariable("report_id") int reportId, Model model) {
+    @GetMapping("/reports/{reportId}")
+    public String displayReportDetail(@PathVariable("reportId") int reportId, Model model) {
 
         Report report = reportService.getReportById(reportId);
-        System.out.println(report.getEmployeeCode());
         List<Task> tasks = taskService.getTasksByReportId(reportId);
-        User user = userService.getUserByEmployeeCode(report.getEmployeeCode());
+        User member = userService.getUserByEmployeeCode(report.getEmployeeCode());
 
-        System.out.println(tasks.size());
-
+        model.addAttribute("report", report);
         model.addAttribute("tasks", tasks);
-        model.addAttribute("date", report.getDate());
-        model.addAttribute("impressions", report.getImpressions());
-        model.addAttribute("startTime",report.getStartTime());
-        model.addAttribute("endTime",report.getEndTime());
-        model.addAttribute("tomorrowSchedule",report.getTomorrowSchedule());
-        //名前を入れる
-        model.addAttribute("memberName",user.getName());
-        model.addAttribute("isLateness",report.getBehideTime());
-        model.addAttribute("latenessReason",report.getLatenessReason());
-        model.addAttribute("isLeftEarly",report.getLeavingEarly());
+        model.addAttribute("member", member);
+
+        String date = report.getDate().format(DateTimeFormatter.ofPattern("yyyy年M月d日(E)", Locale.JAPANESE));
+        model.addAttribute("date", date);
 
         return "manager/report-detail";
     }

@@ -1,20 +1,17 @@
-package analix.DHIT.model;
+package analix.DHIT.input;
 
-import java.util.List;
-
-public class User {
+public class UserCreate {
     private int employeeCode;
     private String name;
     private String password;
     private String role;
     private String icon;
 
-    public int getEmployeeCode()
-    {
+    public int getEmployeeCode() {
         return employeeCode;
     }
-    public void setEmployeeCode(int employeeCode)
-    {
+
+    public void setEmployeeCode(int employeeCode) {
         this.employeeCode = employeeCode;
     }
 
@@ -49,9 +46,4 @@ public class User {
     public void setIcon(String icon) {
         this.icon = icon;
     }
-
-    public List<String> roleList() {
-        return List.of(getRole());
-    }
 }
-

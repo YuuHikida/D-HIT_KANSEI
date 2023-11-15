@@ -2,8 +2,11 @@ package analix.DHIT.repository;
 
 import analix.DHIT.model.User;
 
-public interface UserRepository {
+import java.util.List;
 
-    //コードの保守性
-    User findByEmployeeCode(int employeeCode);
+public interface UserRepository {
+    User selectByEmployeeCode(int employeeCode);
+    List<User> selectAllMember();
+    List<User> selectMemberBySearchCharacters(String searchCharacters);
+    User save(User user);
 }

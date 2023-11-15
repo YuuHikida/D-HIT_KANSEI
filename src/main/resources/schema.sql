@@ -8,7 +8,7 @@ CREATE TABLE IF NOT EXISTS `user` (
     `name` varchar(255) NOT NULL,
     `password` char(64) NOT NULL,
     `role` varchar(255) NOT NULL,
-    `icon` blob
+    `icon` mediumblob
 );
 
 CREATE TABLE IF NOT EXISTS `task` (
