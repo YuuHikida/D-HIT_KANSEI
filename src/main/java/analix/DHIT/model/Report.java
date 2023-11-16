@@ -12,9 +12,9 @@ public class Report {
     private LocalDate date;
     private LocalTime endTime;
     private LocalTime startTime;
-    private Boolean isLateness;
+    private boolean isLateness;
     private String latenessReason;
-    private Boolean isLeftEarly;
+    private boolean isLeftEarly;
 
     public int getId() {
         return id;
@@ -81,7 +81,7 @@ public class Report {
         this.endTime = endTime;
     }
 
-    public Boolean getIsLateness() {
+    public boolean getIsLateness() {
         return isLateness;
     }
 
@@ -97,7 +97,7 @@ public class Report {
         this.latenessReason = latenessReason;
     }
 
-    public Boolean getIsLeftEarly() {
+    public boolean getIsLeftEarly() {
         return isLeftEarly;
     }
 

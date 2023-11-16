@@ -3,12 +3,11 @@ package analix.DHIT.controller;
 import analix.DHIT.input.MemberSearchInput;
 import analix.DHIT.input.ReportSearchInput;
 import analix.DHIT.model.Report;
-import analix.DHIT.model.Task;
+import analix.DHIT.model.TaskLog;
 import analix.DHIT.model.User;
 import analix.DHIT.service.ReportService;
-import analix.DHIT.service.TaskService;
+import analix.DHIT.service.TaskLogService;
 import analix.DHIT.service.UserService;
-import org.springframework.boot.Banner;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -16,7 +15,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeFormatterBuilder;
 import java.util.List;
 import java.util.Locale;
 
@@ -26,16 +24,16 @@ public class ManagerController {
 
     private final UserService userService;
     private final ReportService reportService;
-    private final TaskService taskService;
+    private final TaskLogService taskLogService;
 
     public ManagerController(
             UserService userservice,
             ReportService reportService,
-            TaskService taskService
+            TaskLogService taskLogService
     ) {
         this.userService = userservice;
         this.reportService = reportService;
-        this.taskService = taskService;
+        this.taskLogService = taskLogService;
     }
 
     @GetMapping("/home")
@@ -106,11 +104,11 @@ public class ManagerController {
     public String displayReportDetail(@PathVariable("reportId") int reportId, Model model) {
 
         Report report = reportService.getReportById(reportId);
-        List<Task> tasks = taskService.getTasksByReportId(reportId);
+        List<TaskLog> taskLogs = taskLogService.getTaskLogsByReportId(reportId);
         User member = userService.getUserByEmployeeCode(report.getEmployeeCode());
 
         model.addAttribute("report", report);
-        model.addAttribute("tasks", tasks);
+        model.addAttribute("taskLogs", taskLogs);
         model.addAttribute("member", member);
 
         model.addAttribute("beforeReportId", reportService.getBeforeIdById(reportId));

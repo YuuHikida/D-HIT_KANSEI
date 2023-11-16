@@ -16,4 +16,9 @@ public class MysqlReportRepository implements ReportRepository{
     {
         return this.reportMapper.SelectById(reportId);
     }
+
+    @Override
+    public void save(Report report) {
+        this.reportMapper.insertReport(report);
+    }
 }

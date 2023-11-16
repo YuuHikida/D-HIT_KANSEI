@@ -22,7 +22,7 @@ public class AuthController {
         if (authentication.getAuthorities().stream().anyMatch(r -> r.getAuthority().equals("ROLE_MANAGER"))) {
             return "redirect:/manager/home";
         } else if (authentication.getAuthorities().stream().anyMatch(r -> r.getAuthority().equals("ROLE_MEMBER"))) {
-            return "redirect:/member/home";
+            return "redirect:/member/report/create";
         }
         return "redirect:/login";
 
