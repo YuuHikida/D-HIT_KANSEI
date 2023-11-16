@@ -131,23 +131,28 @@ public class ManagerController {
         model.addAttribute("userCreateInput", new UserCreateInput());
         return "manager/create";
     }
-    @PostMapping("/manager/createEmployee")
+    @PostMapping("/createEmployee")
     public String NewUserRegistrationInformation(@ModelAttribute ("UserCreateInput")UserCreateInput userCreateInput,
                                                                     Model model,
                                                                     RedirectAttributes redirectAttributes)
     {
+
         //employeeCodeが重複してないかチェック
         Integer employeeCode=userService.checkDuplicates(userCreateInput.getEmployeeCode());
+        System.out.println(employeeCode);
         if(employeeCode!=null)
         {
             //employeeCodeが重複してるため、画面リダイレクトでerrorを表示
             redirectAttributes.addFlashAttribute("EmployeeCodeError","社員番号が重複しています");
-            return "redirect:/manager/createEmployee";
+            //System.out.println(@{EmployeeCodeError});
+            return "redirect:/manager/create";
+        }else
+        {
+            //inputデータをDBへ
+            userService.createEmployeeInformation(userCreateInput);
+            //作業完了画面に飛ばす
+            return "/create-completion-registration";
         }
-        //inputデータをDBへ
-        userService.createEmployeeInformation(userCreateInput);
-        //作業完了画面に飛ばす
-        return "/create-completion-registration";
     }
 
 

@@ -26,7 +26,6 @@ public class UserService {
     private  final UserMapper userMapper;
     @Autowired
     PasswordEncoder passwordEncoder;
-    private UserMapper useMapper;
 
 
     public UserService(UserRepository userRepository,UserMapper userMapper) {
@@ -56,11 +55,11 @@ public class UserService {
     //登録時のemployeeCode重複チェック
     public Integer checkDuplicates(int employeeCode)
     {
-        return this.useMapper.duplicateCode(employeeCode);
+        return this.userMapper.duplicateCode(employeeCode);
     }
 
     //ユーザー情報 新規登録
-    public UserCreateInput createEmployeeInformation(UserCreateInput userCreateInput)
+    public void createEmployeeInformation(UserCreateInput userCreateInput)
     {
         //パスワードsha256処理
         try {
@@ -85,7 +84,7 @@ public class UserService {
         }
         userCreateInput.setIcon(Base64.getEncoder().encodeToString(fileContent));
 
-        return this.userMapper.insertEmployeeInformation(userCreateInput);
+        this.userMapper.insertEmployeeInformation(userCreateInput);
     }
     //sha256をstring型へ
     private String bytesToHex(byte[] bytes)

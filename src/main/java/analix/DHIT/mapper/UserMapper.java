@@ -24,8 +24,7 @@ public interface UserMapper {
     @Select("SELECT employee_Code FROM user WHERE employee_Code = #{employeeCode};")
     Integer duplicateCode(int employeeCode);
     //社員情報をDBへ
-    @Insert("INSERT INTO USER(employee_code,name,password,role,icon)"
-            + "VALUES(#{userCreateInput.employeeCode},#{userCreateInput.name},#{userCreateInput.password},#{userCreateInput.role},#{userCreateInput.icon})")
-    UserCreateInput insertEmployeeInformation(UserCreateInput userCreateInput);
+    @Insert("INSERT INTO USER(employee_code,name,password,role,icon)" + "VALUES(#{employeeCode},#{name},#{password},#{role},#{icon})")
+    void insertEmployeeInformation(UserCreateInput userCreateInput);
 
 }
