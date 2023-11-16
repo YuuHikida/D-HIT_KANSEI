@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import java.sql.SQLOutput;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.time.temporal.ChronoUnit;
 
 @Service
 public class ReportService {
@@ -56,7 +57,7 @@ public class ReportService {
             boolean isLateness,
             String latenessReason,
             boolean isLeftEarly
-    ){
+    ) {
 
         Report newReport = new Report();
         newReport.setEmployeeCode(employeeCode);
@@ -64,8 +65,10 @@ public class ReportService {
         newReport.setImpressions(impressions);
         newReport.setTomorrowSchedule(tomorrowSchedule);
         newReport.setDate(date);
-        newReport.setEndTime(endTime);
-        newReport.setStartTime(startTime);
+
+        newReport.setEndTime(adjustTime(endTime));
+        newReport.setStartTime(adjustTime(startTime));
+
         newReport.setIsLateness(isLateness);
         newReport.setLatenessReason(latenessReason);
         newReport.setIsLeftEarly(isLeftEarly);
@@ -74,6 +77,17 @@ public class ReportService {
 
         return newReport.getId();
 
+    }
+
+    public boolean existsReport(int employeeCode, LocalDate date) {
+        int count = reportMapper.countReportByEmployeeCodeAndDate(employeeCode, date);
+        return count > 0;
+    }
+
+    private LocalTime adjustTime(LocalTime time) {
+        // 15分単位で切り捨てする
+        LocalTime truncatedTime = time.truncatedTo(ChronoUnit.MINUTES);
+        return truncatedTime.minusMinutes(truncatedTime.getMinute() % 15);
     }
 
 }
