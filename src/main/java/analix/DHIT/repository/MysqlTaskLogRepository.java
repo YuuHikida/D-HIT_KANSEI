@@ -21,8 +21,16 @@ public class MysqlTaskLogRepository implements TaskLogRepository {
     }
 
     @Override
+    public List<TaskLog> selectIncompleteByReportId(int reportId) {
+        return this.taskLogMapper.selectIncompleteByReportId(reportId);
+    }
+
+    @Override
     public void save(TaskLog taskLog) {
         this.taskLogMapper.insertTaskLog(taskLog);
     }
+
+
+
 
 }

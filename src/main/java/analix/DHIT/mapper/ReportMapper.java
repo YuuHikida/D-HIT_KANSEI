@@ -27,4 +27,8 @@ public interface ReportMapper {
     @Options(useGeneratedKeys = true, keyProperty = "id")
     void insertReport(Report report);
 
+    @Select("SELECT COUNT(*) FROM report WHERE employee_code = #{employeeCode} AND date = #{date}")
+    int countReportByEmployeeCodeAndDate(int employeeCode, LocalDate date);
+
+
 }
