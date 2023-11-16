@@ -1,6 +1,5 @@
-drop table IF EXiSTS `report_task_link`;
+drop table IF EXiSTS `task_log`;
 drop table IF EXiSTS `report`;
-drop table IF EXiSTS `task`;
 drop table IF EXiSTS `user`;
 
 CREATE TABLE IF NOT EXISTS `user` (
@@ -11,16 +10,8 @@ CREATE TABLE IF NOT EXISTS `user` (
     `icon` mediumblob
 );
 
-CREATE TABLE IF NOT EXISTS `task` (
-    `id` int NOT NULL PRIMARY KEY,
-    `employee_code` int NOT NULL,
-    `name` varchar(255) NOT NULL,
-    `progress_rate` tinyint NOT NULL,
-    FOREIGN KEY (`employee_code`) REFERENCES user(`employee_code`)
-);
-
 CREATE TABLE IF NOT EXISTS `report` (
-    `id` int NOT NULL PRIMARY KEY,
+    `id` int NOT NULL AUTO_INCREMENT PRIMARY KEY,
     `employee_code` int NOT NULL,
     `condition` varchar(10) NOT NULL,
     `impressions` text NOT NULL,
@@ -34,10 +25,10 @@ CREATE TABLE IF NOT EXISTS `report` (
     FOREIGN KEY (`employee_code`) REFERENCES user(`employee_code`)
 );
 
-CREATE TABLE IF NOT EXISTS `report_task_link` (
+CREATE TABLE IF NOT EXISTS `task_log` (
     `report_id` int NOT NULL,
-    `task_id` int NOT NULL,
-    FOREIGN KEY (`report_id`) REFERENCES report(`id`),
-    FOREIGN KEY (`task_id`) REFERENCES task(`id`)
+    `name` varchar(255) NOT NULL,
+    `progress_rate` tinyint NOT NULL,
+    FOREIGN KEY (`report_id`) REFERENCES report(`id`)
 );
 
