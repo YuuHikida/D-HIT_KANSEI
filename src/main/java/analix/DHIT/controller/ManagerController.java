@@ -2,13 +2,13 @@ package analix.DHIT.controller;
 
 import analix.DHIT.input.MemberSearchInput;
 import analix.DHIT.input.ReportSearchInput;
+import analix.DHIT.input.UserCreateInput;
 import analix.DHIT.model.Report;
 import analix.DHIT.model.Task;
 import analix.DHIT.model.User;
 import analix.DHIT.service.ReportService;
 import analix.DHIT.service.TaskService;
 import analix.DHIT.service.UserService;
-import org.springframework.boot.Banner;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -16,7 +16,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeFormatterBuilder;
 import java.util.List;
 import java.util.Locale;
 
@@ -67,6 +66,7 @@ public class ManagerController {
         redirectAttributes.addAttribute("searchCharacters", memberSearchInput.getSearchCharacters());
 
         return "redirect:/manager/home";
+
     }
 
     @GetMapping("/report-search")
@@ -122,5 +122,26 @@ public class ManagerController {
 
         return "manager/report-detail";
     }
+
+    //↓ユーザー新規登録画面からの処理
+    @PostMapping("/user/create")
+    public String NewUserRegistrationInformation(@ModelAttribute ("UserCreateInput")UserCreateInput userCreateInput,
+                                                                    Model model,
+                                                                    RedirectAttributes redirectAttributes)
+    {
+        //employeeCodeが重複してないかチェック
+        Integer employeeCode=userService.checkDuplicates(userCreateInput.getEmployeeCode());
+        if(employeeCode!=null)
+        {
+            //employeeCodeが重複してるため、画面リダイレクトでerrorを表示
+            redirectAttributes.addFlashAttribute("error","社員番号が重複しています");
+            return "redirect:/manager/user/create";
+        }
+        userService.createEmployeeInformation(userCreateInput);
+        //作業完了画面に飛ばす
+        return "manager/completion-registration";
+    }
+
+
 
 }

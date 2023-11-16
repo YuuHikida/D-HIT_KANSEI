@@ -1,6 +1,6 @@
 package analix.DHIT.input;
 
-public class UserCreate {
+public class UserCreateInput {
     private int employeeCode;
     private String name;
     private String password;
