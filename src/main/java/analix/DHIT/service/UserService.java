@@ -6,16 +6,12 @@ import analix.DHIT.mapper.UserMapper;
 import analix.DHIT.model.User;
 import analix.DHIT.repository.UserRepository;
 import org.apache.commons.io.FileUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.File;
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 import java.util.Base64;
 import java.util.List;
 
@@ -24,13 +20,14 @@ import java.util.List;
 public class UserService {
     private final UserRepository userRepository;
     private final UserMapper userMapper;
-    @Autowired
-    PasswordEncoder passwordEncoder;
+    private final PasswordEncoder passwordEncoder;
+    private final PasswordEncoderService passWordEncoderService;
 
-
-    public UserService(UserRepository userRepository, UserMapper userMapper) {
+    public UserService(UserRepository userRepository, UserMapper userMapper, PasswordEncoder passwordEncoder, PasswordEncoderService passWordEncoderService, PasswordEncoderService passWordEncoderService1) {
         this.userRepository = userRepository;
         this.userMapper = userMapper;
+        this.passwordEncoder = passwordEncoder;
+        this.passWordEncoderService = passWordEncoderService1;
     }
 
     public User getUserByEmployeeCode(int employeeCode) {
@@ -76,26 +73,24 @@ public class UserService {
         this.userMapper.insertEmployeeInformation(userCreateInput);
     }
 
-    //sha256をstring型へ
-    private String bytesToHex(byte[] bytes) {
-        StringBuilder result = new StringBuilder();
-        for (byte b : bytes) {
-            result.append(String.format("%02x", b));
-        }
-        return result.toString();
-    }
+//    //sha256をstring型へ
+//    private String bytesToHex(byte[] bytes) {
+//        StringBuilder result = new StringBuilder();
+//        for (byte b : bytes) {
+//            result.append(String.format("%02x", b));
+//        }
+//        return result.toString();
+//    }
 
     //passwordを256処理
-    public void encodePasswordSha256(UserCreateInput userCreateInput) {
-        //パスワードsha256処理
-        try {
-            String algorithm = "SHA-256";
-            MessageDigest md = MessageDigest.getInstance(algorithm);
-            byte[] digest = md.digest(userCreateInput.getPassword().getBytes(StandardCharsets.UTF_8));
-            userCreateInput.setPassword(bytesToHex(digest).toLowerCase());
-        } catch (NoSuchAlgorithmException e) {
-            throw new RuntimeException("ハッシュアルゴリズムがサポートされていません", e);
-        }
+    public UserCreateInput encodePasswordSha256(UserCreateInput userCreateInput) {
+        String test=PasswordEncoderService.convertPassword(userCreateInput);
+        System.out.println(test);
+        System.out.println(test.length());
+        userCreateInput.setPassword(test);
+//        userCreateInput.setPassword(passwordEncoder.encode(userCreateInput.getPassword()));
+//        System.out.println(userCreateInput.getPassword().length());
+        return userCreateInput;
     }
 
 //        User user = new User();

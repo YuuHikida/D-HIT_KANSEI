@@ -149,7 +149,6 @@ public class ManagerController {
         try
         {
             userService.encodePasswordSha256(userCreateInput);
-            userService.
 
         } catch (Exception e) {
             redirectAttributes.addFlashAttribute("エラーが出ました" + e.getMessage());
@@ -157,9 +156,9 @@ public class ManagerController {
         }
         //inputデータをDBへ
         userService.createEmployeeInformation(userCreateInput);
-
+        System.out.println(userCreateInput.getPassword());
         //作業完了画面に飛ばす
-        return "/create-completion-registration";
+        return "/manager/create-completion-registration";
     }
 
 
