@@ -23,14 +23,14 @@ import java.util.List;
 @Transactional(rollbackFor = Exception.class)
 public class UserService {
     private final UserRepository userRepository;
-    private  final UserMapper userMapper;
+    private final UserMapper userMapper;
     @Autowired
     PasswordEncoder passwordEncoder;
 
 
-    public UserService(UserRepository userRepository,UserMapper userMapper) {
+    public UserService(UserRepository userRepository, UserMapper userMapper) {
         this.userRepository = userRepository;
-        this.userMapper=userMapper;
+        this.userMapper = userMapper;
     }
 
     public User getUserByEmployeeCode(int employeeCode) {
@@ -43,33 +43,22 @@ public class UserService {
         }
         return user;
     }
+
     public List<User> getAllMember() {
         return this.userRepository.selectAllMember();
     }
 
-    public List<User> getMemberBySearchCharacters(String searchCharacters)
-    {
+    public List<User> getMemberBySearchCharacters(String searchCharacters) {
         return this.userRepository.selectMemberBySearchCharacters(searchCharacters);
     }
 
     //登録時のemployeeCode重複チェック
-    public Integer checkDuplicates(int employeeCode)
-    {
+    public Integer checkDuplicates(int employeeCode) {
         return this.userMapper.duplicateCode(employeeCode);
     }
 
     //ユーザー情報 新規登録
-    public void createEmployeeInformation(UserCreateInput userCreateInput)
-    {
-        //パスワードsha256処理
-        try {
-            String algorithm = "SHA-256";
-            MessageDigest md = MessageDigest.getInstance(algorithm);
-            byte[] digest = md.digest(userCreateInput.getPassword().getBytes(StandardCharsets.UTF_8));
-            userCreateInput.setPassword(bytesToHex(digest).toLowerCase());
-        } catch (NoSuchAlgorithmException e) {
-            throw new RuntimeException("ハッシュアルゴリズムがサポートされていません", e);
-        }
+    public void createEmployeeInformation(UserCreateInput userCreateInput) {
         //アイコンの変換
         String filePath = userCreateInput.getIcon();
         File file = new File(filePath);
@@ -83,12 +72,12 @@ public class UserService {
             e.printStackTrace();
         }
         userCreateInput.setIcon(Base64.getEncoder().encodeToString(fileContent));
-
+        //↓MapperのクエリへUserCreateInputへ
         this.userMapper.insertEmployeeInformation(userCreateInput);
     }
+
     //sha256をstring型へ
-    private String bytesToHex(byte[] bytes)
-    {
+    private String bytesToHex(byte[] bytes) {
         StringBuilder result = new StringBuilder();
         for (byte b : bytes) {
             result.append(String.format("%02x", b));
@@ -96,11 +85,18 @@ public class UserService {
         return result.toString();
     }
 
-
-
-
-
-
+    //passwordを256処理
+    public void encodePasswordSha256(UserCreateInput userCreateInput) {
+        //パスワードsha256処理
+        try {
+            String algorithm = "SHA-256";
+            MessageDigest md = MessageDigest.getInstance(algorithm);
+            byte[] digest = md.digest(userCreateInput.getPassword().getBytes(StandardCharsets.UTF_8));
+            userCreateInput.setPassword(bytesToHex(digest).toLowerCase());
+        } catch (NoSuchAlgorithmException e) {
+            throw new RuntimeException("ハッシュアルゴリズムがサポートされていません", e);
+        }
+    }
 
 //        User user = new User();
 //        user.setName(userCreate.getName());

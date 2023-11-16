@@ -45,7 +45,7 @@ public class ManagerController {
         String today = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy年M月d日(E)", Locale.JAPANESE));
         model.addAttribute("today", today);
 
-        if (searchCharacters==null){
+        if (searchCharacters == null) {
             model.addAttribute("members", userService.getAllMember());
             model.addAttribute("memberSearchInput", new MemberSearchInput());
             return "manager/home";
@@ -126,35 +126,41 @@ public class ManagerController {
 
     //↓社員新規登録画面表示
     @GetMapping("/create")
-    public String display(Model model)
-    {
+    public String display(Model model) {
         model.addAttribute("userCreateInput", new UserCreateInput());
         return "manager/create";
     }
-    @PostMapping("/createEmployee")
-    public String NewUserRegistrationInformation(@ModelAttribute ("UserCreateInput")UserCreateInput userCreateInput,
-                                                                    Model model,
-                                                                    RedirectAttributes redirectAttributes)
-    {
 
+    //↓社員情報入力処理
+    @PostMapping("/createEmployee")
+    public String NewUserRegistrationInformation(@ModelAttribute("UserCreateInput") UserCreateInput userCreateInput,
+                                                 Model model,
+                                                 RedirectAttributes redirectAttributes) {
         //employeeCodeが重複してないかチェック
-        Integer employeeCode=userService.checkDuplicates(userCreateInput.getEmployeeCode());
-        System.out.println(employeeCode);
-        if(employeeCode!=null)
+        Integer employeeCode = userService.checkDuplicates(userCreateInput.getEmployeeCode());
+        if (employeeCode != null)
         {
             //employeeCodeが重複してるため、画面リダイレクトでerrorを表示
-            redirectAttributes.addFlashAttribute("EmployeeCodeError","社員番号が重複しています");
-            //System.out.println(@{EmployeeCodeError});
+            redirectAttributes.addFlashAttribute("EmployeeCodeError", "社員番号が重複しています");
             return "redirect:/manager/create";
-        }else
-        {
-            //inputデータをDBへ
-            userService.createEmployeeInformation(userCreateInput);
-            //作業完了画面に飛ばす
-            return "/create-completion-registration";
-        }
-    }
 
+        }
+        //もしアイコン&パスワードが正常にDBに処理できなかったらリダイレクトerror
+        try
+        {
+            userService.encodePasswordSha256(userCreateInput);
+            userService.
+
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("エラーが出ました" + e.getMessage());
+            return "redirect:/manager/create";
+        }
+        //inputデータをDBへ
+        userService.createEmployeeInformation(userCreateInput);
+
+        //作業完了画面に飛ばす
+        return "/create-completion-registration";
+    }
 
 
 }
