@@ -1,5 +1,5 @@
 //package analix.DHIT.controller;
-//
+//既存userロジック
 //import analix.DHIT.input.UserCreateInput;
 //import analix.DHIT.model.User;
 //import analix.DHIT.service.UserService;

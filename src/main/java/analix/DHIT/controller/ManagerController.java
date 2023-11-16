@@ -123,8 +123,15 @@ public class ManagerController {
         return "manager/report-detail";
     }
 
-    //↓ユーザー新規登録画面からの処理
-    @PostMapping("/user/create")
+
+    //↓社員新規登録画面表示
+    @GetMapping("/create")
+    public String display(Model model)
+    {
+        model.addAttribute("userCreateInput", new UserCreateInput());
+        return "manager/create";
+    }
+    @PostMapping("/manager/createEmployee")
     public String NewUserRegistrationInformation(@ModelAttribute ("UserCreateInput")UserCreateInput userCreateInput,
                                                                     Model model,
                                                                     RedirectAttributes redirectAttributes)
@@ -134,12 +141,13 @@ public class ManagerController {
         if(employeeCode!=null)
         {
             //employeeCodeが重複してるため、画面リダイレクトでerrorを表示
-            redirectAttributes.addFlashAttribute("error","社員番号が重複しています");
-            return "redirect:/manager/user/create";
+            redirectAttributes.addFlashAttribute("EmployeeCodeError","社員番号が重複しています");
+            return "redirect:/manager/createEmployee";
         }
+        //inputデータをDBへ
         userService.createEmployeeInformation(userCreateInput);
         //作業完了画面に飛ばす
-        return "manager/completion-registration";
+        return "/create-completion-registration";
     }
 
 

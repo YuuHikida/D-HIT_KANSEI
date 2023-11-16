@@ -1,17 +1,21 @@
 package analix.DHIT.input;
 
+import analix.DHIT.model.User;
+import org.springframework.context.annotation.Bean;
+
+
 public class UserCreateInput {
-    private int employeeCode;
+    private Integer employeeCode;
     private String name;
     private String password;
     private String role;
     private String icon;
 
-    public int getEmployeeCode() {
+    public Integer getEmployeeCode() {
         return employeeCode;
     }
 
-    public void setEmployeeCode(int employeeCode) {
+    public void setEmployeeCode(Integer employeeCode) {
         this.employeeCode = employeeCode;
     }
 
