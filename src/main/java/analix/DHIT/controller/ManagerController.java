@@ -136,7 +136,6 @@ public class ManagerController {
     //↓新規社員情報入力処理
     @PostMapping("/createEmployee")
     public String NewUserRegistrationInformation(@ModelAttribute("UserCreateInput") UserCreateInput userCreateInput,
-                                                 Model model,
                                                  RedirectAttributes redirectAttributes){
 
         //employeeCodeが重複してないかチェック
