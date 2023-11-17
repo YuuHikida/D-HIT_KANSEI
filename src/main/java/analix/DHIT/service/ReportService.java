@@ -90,4 +90,8 @@ public class ReportService {
         return truncatedTime.minusMinutes(truncatedTime.getMinute() % 15);
     }
 
+    public void deleteById(int reportId) {
+        this.reportRepository.deleteById(reportId);
+    }
+
 }

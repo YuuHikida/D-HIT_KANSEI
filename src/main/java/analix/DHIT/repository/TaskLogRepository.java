@@ -10,5 +10,7 @@ public interface TaskLogRepository {
     List<TaskLog> selectIncompleteByReportId(int reportId);
 
     void save(TaskLog taskLog);
+
+    void deleteByReportId(int reportId);
 }
 
