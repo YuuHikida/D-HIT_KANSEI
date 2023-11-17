@@ -14,6 +14,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
@@ -125,39 +126,38 @@ public class ManagerController {
     }
 
 
-    //↓社員新規登録画面表示
+    //↓新規社員登録画面表示
     @GetMapping("/create")
     public String display(Model model) {
         model.addAttribute("userCreateInput", new UserCreateInput());
         return "manager/create";
     }
 
-    //↓社員情報入力処理
+    //↓新規社員情報入力処理
     @PostMapping("/createEmployee")
     public String NewUserRegistrationInformation(@ModelAttribute("UserCreateInput") UserCreateInput userCreateInput,
                                                  Model model,
-                                                 RedirectAttributes redirectAttributes) {
+                                                 RedirectAttributes redirectAttributes){
+
         //employeeCodeが重複してないかチェック
         Integer employeeCode = userService.checkDuplicates(userCreateInput.getEmployeeCode());
-        if (employeeCode != null)
-        {
+
+        if (employeeCode != null) {
             //employeeCodeが重複してるため、画面リダイレクトでerrorを表示
             redirectAttributes.addFlashAttribute("EmployeeCodeError", "社員番号が重複しています");
             return "redirect:/manager/create";
-
         }
         //もしアイコン&パスワードが正常にDBに処理できなかったらリダイレクトerror
         try
         {
             userService.encodePasswordSha256(userCreateInput);
-
+            userService.base64Converter(userCreateInput);
         } catch (Exception e) {
-            redirectAttributes.addFlashAttribute("エラーが出ました" + e.getMessage());
+            redirectAttributes.addFlashAttribute("EncodeError","エラーが出ました" + e.getMessage());
             return "redirect:/manager/create";
         }
         //inputデータをDBへ
         userService.createEmployeeInformation(userCreateInput);
-        System.out.println(userCreateInput.getPassword());
         //作業完了画面に飛ばす
         return "/manager/create-completion-registration";
     }

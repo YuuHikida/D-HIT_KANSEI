@@ -32,9 +32,7 @@ public class PasswordEncoderService {
 
     public static String  convertPassword(UserCreateInput userCreateInput) {
         String input = userCreateInput.getPassword();
-        String hashedString = hashStringToSHA256(input);
-        System.out.println("SHA-256 Hash: " + hashedString);
-        System.out.println("Length: " + hashedString.length());
-        return hashedString;
+        System.out.println(input);
+        return hashStringToSHA256(input);
     }
 }

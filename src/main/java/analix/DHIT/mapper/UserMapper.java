@@ -23,8 +23,9 @@ public interface UserMapper {
     //employeeCodeの重複をチェック
     @Select("SELECT employee_Code FROM user WHERE employee_Code = #{employeeCode};")
     Integer duplicateCode(int employeeCode);
+
     //社員情報をDBへ
-    @Insert("INSERT INTO USER(employee_code,name,password,role,icon)" + "VALUES(#{employeeCode},#{name},#{password},#{role},#{icon})")
+    @Insert("INSERT INTO USER(employee_code,name,password,role,icon)" + "VALUES(#{employeeCode},#{name},#{password},#{role},#{convertIcon})")
     void insertEmployeeInformation(UserCreateInput userCreateInput);
 
 }

@@ -2,6 +2,7 @@ package analix.DHIT.input;
 
 import analix.DHIT.model.User;
 import org.springframework.context.annotation.Bean;
+import org.springframework.web.multipart.MultipartFile;
 
 
 public class UserCreateInput {
@@ -9,7 +10,8 @@ public class UserCreateInput {
     private String name;
     private String password;
     private String role;
-    private String icon;
+    private MultipartFile icon;
+    private String convertIcon;
 
     public Integer getEmployeeCode() {
         return employeeCode;
@@ -43,11 +45,19 @@ public class UserCreateInput {
         this.role = role;
     }
 
-    public String getIcon() {
+    public MultipartFile getIcon() {
         return icon;
     }
 
-    public void setIcon(String icon) {
+    public void setIcon(MultipartFile icon) {
         this.icon = icon;
+    }
+
+    public String getConvertIcon() {
+        return convertIcon;
+    }
+
+    public void setConvertIcon(String convertIcon) {
+        this.convertIcon = convertIcon;
     }
 }

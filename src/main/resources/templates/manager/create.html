@@ -27,7 +27,7 @@
 <div class="container mt-5">
     <h1 class="mb-4">ユーザー新規登録</h1>
 
-    <form th:action="@{/manager/createEmployee}" th:object="${userCreateInput}" th:method="post" onsubmit="return validateForm()">
+    <form th:action="@{/manager/createEmployee}" th:object="${userCreateInput}" th:method="post" enctype="multipart/form-data" onsubmit="return validateForm()">
         <!-- 社員番号 -->
         <div class="mb-3">
             <label for="employeeCode" class="form-label">社員番号：<span class="text-danger">※</span></label>
@@ -60,7 +60,10 @@
         <!-- アイコン画像 -->
         <div class="mb-3">
             <label for="icon" class="form-label">アイコン画像</label>
-            <input type="file" id="icon" th:field="*{icon}" class="form-control">
+<!--            送信タイプをfileに、ユーザーから受け付けるファイルを画像のみに-->
+            ファイルを選択<input type="file" id="icon" th:field="*{icon}" accept="image/*" class="form-control">
+            <div th:if="${EnCodeError != null}" class="text-danger mt-1" th:text="${EnCodeError}"></div>
+
         </div>
 
         <!-- 登録ボタン -->
