@@ -45,6 +45,7 @@ public class SecurityConfig {
         ).exceptionHandling(ex -> ex.accessDeniedPage("/"));
 
         return http.build();
+
     }
 }
 
