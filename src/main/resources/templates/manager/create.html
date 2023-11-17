@@ -32,15 +32,16 @@
         <!-- 社員番号 -->
         <div class="mb-3">
             <label for="employeeCode" class="form-label">社員番号：<span class="text-danger">※</span></label>
-            <input type="text" id="employeeCode" th:field="*{employeeCode}" class="form-control" pattern="[0-9]*" title="数字のみ入力してください（マイナスは不可）">
-<!--            <input type="text" id="employeeCode" th:field="*{employeeCode}" class="form-control">-->
+            <input type="text" id="employeeCode" th:field="*{employeeCode}" class="form-control" pattern="[0-9]{1,5}" title="5桁以下の数字を入力してください">
+
+            <!--            <input type="text" id="employeeCode" th:field="*{employeeCode}" class="form-control">-->
             <div th:if="${EmployeeCodeError != null}" class="text-danger mt-1" th:text="${EmployeeCodeError}"></div>
         </div>
 
         <!-- 名前 -->
         <div class="mb-3">
             <label for="name" class="form-label">名前：<span class="text-danger">※</span></label>
-            <input type="text" id="name" th:field="*{name}" class="form-control">
+            <input type="text" id="name" th:field="*{name}" class="form-control" pattern="[A-Za-zぁ-んァ-ン一-龯]+" title="アルファベット、ひらがな、漢字のみが許可されています">
         </div>
 
         <!-- パスワード -->
