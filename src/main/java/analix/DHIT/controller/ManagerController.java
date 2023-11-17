@@ -20,7 +20,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Locale;
 
-//syorituskuru
+
 @Controller
 @RequestMapping("/manager")
 public class ManagerController {

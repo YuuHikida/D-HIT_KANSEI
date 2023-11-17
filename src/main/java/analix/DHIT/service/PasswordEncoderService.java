@@ -13,7 +13,6 @@ public class PasswordEncoderService {
             MessageDigest digest = MessageDigest.getInstance("SHA-256");
             byte[] hash = digest.digest(input.getBytes());
 
-            // Convert byte array to hexadecimal string
             StringBuilder hexString = new StringBuilder();
             for (byte b : hash) {
                 String hex = Integer.toHexString(0xff & b);
@@ -25,7 +24,7 @@ public class PasswordEncoderService {
             return hexString.toString();
         } catch (NoSuchAlgorithmException e) {
             e.printStackTrace();
-            // Handle exception (e.g. return a default value or throw a custom exception)
+
             return null;
         }
     }
