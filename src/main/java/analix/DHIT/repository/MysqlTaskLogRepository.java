@@ -30,7 +30,10 @@ public class MysqlTaskLogRepository implements TaskLogRepository {
         this.taskLogMapper.insertTaskLog(taskLog);
     }
 
-
+    @Override
+    public void deleteByReportId(int reportId) {
+        this.taskLogMapper.deleteByReportId(reportId);
+    }
 
 
 }

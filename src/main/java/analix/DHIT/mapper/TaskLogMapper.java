@@ -2,10 +2,7 @@ package analix.DHIT.mapper;
 
 import analix.DHIT.model.Report;
 import analix.DHIT.model.TaskLog;
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Options;
-import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.*;
 
 import java.util.List;
 
@@ -20,4 +17,7 @@ public interface TaskLogMapper {
     @Insert("INSERT INTO task_log(report_id, name, progress_rate) " +
             "VALUES(#{reportId}, #{name}, #{progressRate})")
     void insertTaskLog(TaskLog taskLog);
+
+    @Delete("DELETE FROM task_log WHERE report_id = #{reportId}")
+    void deleteByReportId(int reportId);
 }

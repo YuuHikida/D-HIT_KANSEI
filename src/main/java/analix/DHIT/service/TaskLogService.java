@@ -38,4 +38,8 @@ public class TaskLogService {
     public void create(TaskLog taskLog){
         this.taskLogRepository.save(taskLog);
     }
+
+    public void deleteByReportId(int reportId){
+        this.taskLogRepository.deleteByReportId(reportId);
+    }
 }

@@ -1,10 +1,7 @@
 package analix.DHIT.mapper;
 
 import analix.DHIT.model.Report;
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Options;
-import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.*;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -29,6 +26,9 @@ public interface ReportMapper {
 
     @Select("SELECT COUNT(*) FROM report WHERE employee_code = #{employeeCode} AND date = #{date}")
     int countReportByEmployeeCodeAndDate(int employeeCode, LocalDate date);
+
+    @Delete("DELETE FROM report WHERE id = #{reportId}")
+    void deleteById(int reportId);
 
 
 }
