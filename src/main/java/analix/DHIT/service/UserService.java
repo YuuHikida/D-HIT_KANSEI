@@ -80,35 +80,9 @@ public class UserService {
     }
 
     //従業員情報一覧を表示させるのに必要な情報を取得
-    public List<User> getEmployeeInfo()
+    public List<User> getAllEmployeeInfo()
     {
         return this.userRepository.selectAllEmployeeInfomation();
     }
 
-//        User user = new User();
-//        user.setName(userCreate.getName());
-//        user.setEmployeeCode(userCreate.getEmployeeCode());
-//        user.setPassword(passwordEncoder.encode(userCreate.getPassword()));
-//        user.setRole(userCreate.getRole());
-//        String filePath = userCreate.getIcon();
-//        // String型のファイルパスを使用してFileオブジェクトを生成
-//        File file = new File(filePath);
-//        byte[] fileContent;
-//        try {
-//            // ファイルをバイト配列に読み込む
-//            fileContent = FileUtils.readFileToByteArray(file);
-//            // ここで fileContent を使用して必要な処理を行います
-//            System.out.println("File successfully read to byte array!");
-//        } catch
-//        (IOException e) {
-//            e.printStackTrace();
-//        }
-//        user.setIcon(Base64.getEncoder().encodeToString(fileContent));
-//
-//
-//        userRepository.save(user);
-//
-//
-//    }
-//
 }

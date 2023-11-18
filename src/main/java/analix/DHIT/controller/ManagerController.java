@@ -159,7 +159,7 @@ public class ManagerController {
         //inputデータをDBへ
         userService.createEmployeeInformation(userCreateInput);
         //作業完了画面に飛ばす
-        return "/manager/create-completion-registration";
+        return "/manager/workCompletion";
     }
 
 
