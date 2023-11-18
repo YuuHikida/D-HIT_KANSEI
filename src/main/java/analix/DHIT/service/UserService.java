@@ -79,6 +79,11 @@ public class UserService {
         this.userMapper.insertEmployeeInformation(userCreateInput);
     }
 
+    //従業員情報一覧を表示させるのに必要な情報を取得
+    public List<User> getEmployeeInfo()
+    {
+        return this.userRepository.selectAllEmployeeInfomation();
+    }
 
 //        User user = new User();
 //        user.setName(userCreate.getName());

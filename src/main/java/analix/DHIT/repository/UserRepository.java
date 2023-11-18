@@ -9,6 +9,6 @@ public interface UserRepository {
     List<User> selectAllMember();
     List<User> selectMemberBySearchCharacters(String searchCharacters);
     User save(User user);
-
+    List<User> selectAllEmployeeInfomation();
 
 }

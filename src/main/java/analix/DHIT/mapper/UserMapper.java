@@ -28,4 +28,6 @@ public interface UserMapper {
     @Insert("INSERT INTO USER(employee_code,name,password,role,icon)" + "VALUES(#{employeeCode},#{name},#{password},#{role},#{convertIcon})")
     void insertEmployeeInformation(UserCreateInput userCreateInput);
 
+    @Select("SELECT * FROM user")
+    List<User> selectAllEmployeeInfo();
 }

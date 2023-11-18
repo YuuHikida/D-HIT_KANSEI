@@ -47,6 +47,7 @@ public class ManagerController {
         String today = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy年M月d日(E)", Locale.JAPANESE));
         model.addAttribute("today", today);
 
+        //アイコン探し
         if (searchCharacters == null) {
             model.addAttribute("members", userService.getAllMember());
             model.addAttribute("memberSearchInput", new MemberSearchInput());

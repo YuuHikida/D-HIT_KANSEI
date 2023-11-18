@@ -36,4 +36,10 @@ public class MysqlUserRepository implements UserRepository {
         return null;
     }
 
+    @Override
+    public List<User> selectAllEmployeeInfomation() {
+        return this.userMapper.selectAllEmployeeInfo();
+    }
+
+
 }

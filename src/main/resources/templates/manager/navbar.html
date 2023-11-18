@@ -15,7 +15,8 @@
                         <a class="nav-link" th:href=@{/manager/create}><i class="fas fa-search"></i>ユーザ新規登録</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#"><i class="fas fa-search"></i>ユーザ管理</a>
+                        <a class="nav-link" th:href="@{/manager/employeeList}">
+                            <i class="fas fa-search"></i>ユーザ管理</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" th:href="@{/logout}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
