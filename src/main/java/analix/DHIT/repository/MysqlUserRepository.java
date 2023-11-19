@@ -41,5 +41,10 @@ public class MysqlUserRepository implements UserRepository {
         return this.userMapper.selectAllEmployeeInfo();
     }
 
+    @Override
+    public  void userDelete(int employeeCode)
+    {
+        this.userMapper.userDelete(employeeCode);
+    }
 
 }

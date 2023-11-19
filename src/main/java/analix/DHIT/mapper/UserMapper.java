@@ -2,10 +2,7 @@ package analix.DHIT.mapper;
 
 import analix.DHIT.input.UserCreateInput;
 import analix.DHIT.model.User;
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.*;
 
 import java.util.List;
 
@@ -30,4 +27,6 @@ public interface UserMapper {
 
     @Select("SELECT * FROM user")
     List<User> selectAllEmployeeInfo();
+    @Delete("DELETE FROM user WHERE employee_code =#{employeeCode}")
+    void userDelete(int employeeCode);
 }
