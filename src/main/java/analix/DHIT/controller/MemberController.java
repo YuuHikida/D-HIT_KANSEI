@@ -3,6 +3,7 @@ package analix.DHIT.controller;
 
 import analix.DHIT.input.ReportCreateInput;
 import analix.DHIT.input.ReportSearchInput;
+import analix.DHIT.input.ReportUpdateInput;
 import analix.DHIT.model.Report;
 import analix.DHIT.model.TaskLog;
 import analix.DHIT.model.User;
@@ -30,11 +31,12 @@ public class MemberController {
     private final TaskLogService taskLogService;
     private final ReportService reportService;
 
-    public MemberController(UserService userService, TaskLogService taskLogService, ReportService reportService){
+    public MemberController(UserService userService, TaskLogService taskLogService, ReportService reportService) {
         this.userService = userService;
         this.taskLogService = taskLogService;
         this.reportService = reportService;
     }
+
     @GetMapping("/report/create")
     public String displayReportCreate(
             Model model
@@ -45,7 +47,7 @@ public class MemberController {
         ReportCreateInput reportCreateInput = new ReportCreateInput();
         reportCreateInput.setDate(LocalDate.now());
 
-        if (latestReportId == null){
+        if (latestReportId == null) {
             model.addAttribute("reportCreateInput", reportCreateInput);
             return "member/report-create";
         }
@@ -63,13 +65,13 @@ public class MemberController {
 
     @Transactional
     @PostMapping("/report/create")
-    public String createReport(ReportCreateInput reportCreateInput, RedirectAttributes redirectAttributes){
+    public String createReport(ReportCreateInput reportCreateInput, RedirectAttributes redirectAttributes) {
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         int employeeCode = Integer.parseInt(authentication.getName());
 
 
-        if(reportService.existsReport(employeeCode,reportCreateInput.getDate())){
+        if (reportService.existsReport(employeeCode, reportCreateInput.getDate())) {
             redirectAttributes.addFlashAttribute("error", reportCreateInput.getDate() + "は既に業務報告書が存在しています");
             return "redirect:/member/report/create";
         }
@@ -92,7 +94,7 @@ public class MemberController {
             List<TaskLog> taskLogs = reportCreateInput.getTaskLogs();
             taskLogs.forEach(x -> x.setReportId(newReportId));
             for (TaskLog taskLog : taskLogs) {
-                if (taskLog != null) {
+                if (taskLog != null && taskLog.getName() != null) {
                     taskLogService.create(taskLog);
                 }
             }
@@ -147,7 +149,7 @@ public class MemberController {
         int employeeCode = Integer.parseInt(authentication.getName());
 
         Report report = reportService.getReportById(reportId);
-        if(report.getEmployeeCode() != employeeCode) {
+        if (report.getEmployeeCode() != employeeCode) {
             return "redirect:/member/report/create";
         }
 
@@ -177,7 +179,7 @@ public class MemberController {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         int employeeCode = Integer.parseInt(authentication.getName());
 
-        if(report.getEmployeeCode() != employeeCode) {
+        if (report.getEmployeeCode() != employeeCode) {
             return "redirect:/member/report/create";
         }
 
@@ -195,27 +197,58 @@ public class MemberController {
 
     @GetMapping("/reports/{reportId}/edit")
     public String displayReportEdit(
-            Model model
+            Model model,
+            @PathVariable int reportId
     ) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         int employeeCode = Integer.parseInt(authentication.getName());
-        String latestReportId = reportService.getLatestIdByEmployeeCode(employeeCode);
-        ReportCreateInput reportCreateInput = new ReportCreateInput();
-        reportCreateInput.setDate(LocalDate.now());
 
-        if (latestReportId == null){
-            model.addAttribute("reportCreateInput", reportCreateInput);
-            return "member/report-create";
+        Report report = this.reportService.getReportById(reportId);
+
+        if (report.getEmployeeCode() != employeeCode) {
+            return "redirect:/member/report/create";
         }
 
-        Report report = reportService.getReportById(Integer.parseInt(latestReportId));
+        List<TaskLog> taskLogs = this.taskLogService.getTaskLogsByReportId(reportId);
 
-        reportCreateInput.setStartTime(report.getStartTime());
-        reportCreateInput.setEndTime(report.getEndTime());
+        model.addAttribute("report", report);
+        model.addAttribute("taskLogs", taskLogs);
+        model.addAttribute("reportUpdateInput", new ReportUpdateInput());
 
-        reportCreateInput.setTaskLogs(taskLogService.getIncompleteTaskLogsByReportId(Integer.parseInt(latestReportId)));
-        model.addAttribute("reportCreateInput", reportCreateInput);
-        return "member/report-create";
+        return "member/report-edit";
 
     }
+
+    @Transactional
+    @PostMapping("/report/update")
+    public String updateReport(ReportUpdateInput reportUpdateInput, RedirectAttributes redirectAttributes) {
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        int employeeCode = Integer.parseInt(authentication.getName());
+
+        Report report = this.reportService.getReportById(reportUpdateInput.getReportId());
+
+        if (report.getEmployeeCode() != employeeCode) {
+            return "redirect:/member/report/create";
+        }
+
+        this.reportService.update(reportUpdateInput);
+        this.taskLogService.deleteByReportId(reportUpdateInput.getReportId());
+
+        if (reportUpdateInput.getTaskLogs() != null) {
+            List<TaskLog> taskLogs = reportUpdateInput.getTaskLogs();
+            taskLogs.forEach(x -> x.setReportId(reportUpdateInput.getReportId()));
+            for (TaskLog taskLog : taskLogs) {
+                if (taskLog != null && taskLog.getName() != null) {
+                    taskLogService.create(taskLog);
+                }
+            }
+        }
+
+        redirectAttributes.addAttribute("reportId", reportUpdateInput.getReportId());
+        return "redirect:/member/reports/{reportId}";
+
+    }
+
+
 }

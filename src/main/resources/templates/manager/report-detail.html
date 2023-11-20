@@ -102,12 +102,19 @@
                     <tr>
                         <th scope="col">タスク名</th>
                         <th scope="col">進捗率</th>
+                        <th scope="col">進捗グラフ</th> <!-- 追加: グラフ表示列 -->
                     </tr>
                     </thead>
                     <tbody>
                     <tr th:each="taskLog : ${taskLogs}" class="task">
                         <td th:text="${taskLog.name}" style="word-wrap: break-word; max-width: 200px;"></td>
                         <td class="progress-rate" th:text="${taskLog.progressRate + '%'}"></td>
+                        <td>
+                            <!-- Bootstrapのプログレスバー -->
+                            <div class="progress">
+                                <div class="progress-bar" role="progressbar" th:style="'width: ' + ${taskLog.progressRate} + '%;'" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                            </div>
+                        </td>
                     </tr>
                     </tbody>
                 </table>

@@ -7,4 +7,5 @@ public interface ReportRepository {
     void save(Report report);
 
     void deleteById(int reportId);
+    void update(Report report);
 }
