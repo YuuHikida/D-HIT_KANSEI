@@ -8,11 +8,21 @@ import analix.DHIT.model.User;
 
 
 public class UserEditInput {
+
+    private int employeeCode;
     private String name;
     private String password;
     private String role;
     private MultipartFile icon;
     private String convertIcon;
+
+    public int getEmployeeCode() {
+        return employeeCode;
+    }
+
+    public void setEmployeeCode(int employeeCode) {
+        this.employeeCode = employeeCode;
+    }
 
     public String getName() {
         return name;
