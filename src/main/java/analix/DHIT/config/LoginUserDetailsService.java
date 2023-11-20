@@ -16,9 +16,6 @@ public class LoginUserDetailsService implements UserDetailsService {
 
     private final UserRepository userRepository;
 
-    @Autowired
-    PasswordEncoder passwordEncoder;
-
     public LoginUserDetailsService(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
