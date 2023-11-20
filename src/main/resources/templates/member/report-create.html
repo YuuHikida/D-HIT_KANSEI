@@ -55,21 +55,21 @@
                 </div>
                 <div class="col-md-12 d-flex flex-row gap-5">
                     <div class="form-check">
-                        <input class="form-check-input" type="checkbox" value="true" id="flexCheckDisabled"
-                               name="isLateness" th:checked="${reportCreateInput.isLateness}"/>
-                        <label class="form-check-label" for="flexCheckDisabled">遅刻</label>
+                        <input class="form-check-input" type="checkbox" value="true" id="check_Lateness"
+                               onchange="checkInput()" name="isLateness" th:checked="${reportCreateInput.isLateness}"/>
+                        <label class="form-check-label" for="check_Lateness">遅刻</label>
                     </div>
 
                     <div class="form-check">
-                        <input class="form-check-input" type="checkbox" value="true" id="flexCheckCheckedDisabled"
+                        <input class="form-check-input" type="checkbox" value="true" id="check_LeftEarly"
                                name="isLeftEarly" th:checked="${reportCreateInput.isLeftEarly}"/>
-                        <label class="form-check-label" for="flexCheckCheckedDisabled">早退</label>
+                        <label class="form-check-label" for="check_LeftEarly">早退</label>
                     </div>
                 </div>
                 <div class="col-12 d-flex flex-row align-items-center gap-3">
                     <label class="text-nowrap">※遅刻の場合は理由を記入</label>
-                    <label for="exampleFormControl"></label>
-                    <textarea name="latenessReason" class="form-control" id="exampleFormControl" rows="3"></textarea>
+                    <label for="text_latenessReason"></label>
+                    <textarea onchange="checkInput()" name="latenessReason" class="form-control" id="text_latenessReason" rows="3"></textarea>
                 </div>
                 <div class="col-md-12 d-flex flex-row gap-3">
                     <label class="text-nowrap">本日の体調</label>
@@ -82,15 +82,15 @@
                 </div>
                 <div class="col-12 d-flex flex-row align-items-center gap-3">
                     <label class="text-nowrap">1日の感想</label>
-                    <label for="exampleFormControlTextarea1"></label><textarea name="impressions" class="form-control"
-                                                                               id="exampleFormControlTextarea1"
+                    <label for="text_impressions"></label><textarea name="impressions" class="form-control"
+                                                                               id="text_impressions"
                                                                                rows="3" required></textarea>
                 </div>
                 <div class="col-12 d-flex flex-row align-items-center gap-3">
                     <label class="text-nowrap">明日の予定</label>
-                    <label for="exampleFormControlTextarea2"></label><textarea class="form-control"
+                    <label for="text_tomorrowSchedule"></label><textarea class="form-control"
                                                                                name="tomorrowSchedule"
-                                                                               id="exampleFormControlTextarea2"
+                                                                               id="text_tomorrowSchedule"
                                                                                rows="3" required></textarea>
                 </div>
                 <div class="col-12 d-flex flex-column gap-2" id="todo-field">
@@ -145,6 +145,18 @@
        button.parentNode.parentNode.remove();
     }
     /*]]>*/
+    function checkInput() {
+        var check_Lateness = document.getElementById("check_Lateness");
+        var text_latenessReason = document.getElementById("text_latenessReason");
+        if (check_Lateness.checked) {
+            if (text_latenessReason.value.trim() === "") {
+                text_latenessReason.setCustomValidity("遅刻理由を記入してください");
+            }
+            else {
+                text_latenessReason.setCustomValidity("");
+            }
+        }
+    }
 
 </script>
 </html>
