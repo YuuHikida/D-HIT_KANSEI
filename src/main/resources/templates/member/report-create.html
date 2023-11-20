@@ -56,7 +56,7 @@
                 <div class="col-md-12 d-flex flex-row gap-5">
                     <div class="form-check">
                         <input class="form-check-input" type="checkbox" value="true" id="check_Lateness"
-                               onchange="checkInput()" name="isLateness" th:checked="${reportCreateInput.isLateness}"/>
+                                name="isLateness" th:checked="${reportCreateInput.isLateness}"/>
                         <label class="form-check-label" for="check_Lateness">遅刻</label>
                     </div>
 
@@ -69,7 +69,7 @@
                 <div class="col-12 d-flex flex-row align-items-center gap-3">
                     <label class="text-nowrap">※遅刻の場合は理由を記入</label>
                     <label for="text_latenessReason"></label>
-                    <textarea onchange="checkInput()" name="latenessReason" class="form-control" id="text_latenessReason" rows="3"></textarea>
+                    <textarea  name="latenessReason" class="form-control" id="text_latenessReason" rows="3"></textarea>
                 </div>
                 <div class="col-md-12 d-flex flex-row gap-3">
                     <label class="text-nowrap">本日の体調</label>
@@ -119,44 +119,6 @@
         </div>
     </div>
 </div>
+<script th:src="@{/report.js}"></script>
 </body>
-
-<script th:inline="javascript">
-    const elem = document.getElementById("add-todo");
-    const todoField = document.getElementById("todo-field");
-    let taskIndex = /*[[${reportCreateInput.taskLogs.size()}]]*/;
-
-    elem.onclick = function() {
-      const node = document.createElement("div");
-      node.setAttribute("class", "row");
-      node.innerHTML += `<div class="flex-row d-flex gap-3 col-md-8">
-                                <input type="text" class="form-control" placeholder="タスク名" aria-label=""
-                                       name="${'taskLogs[' + taskIndex + '].name'}" required>
-                                <input type="number" class="form-control" placeholder="進捗率" aria-label=""
-                                       name="${'taskLogs[' + taskIndex + '].progressRate'}" min="0" max="100" required>
-                                <button type="button" class="btn btn-danger" onclick="removeTask(this)">削除</button>
-                            </div>`;
-
-      todoField.appendChild(node);
-      taskIndex++;
-    };
-
-    function removeTask(button) {
-       button.parentNode.parentNode.remove();
-    }
-    /*]]>*/
-    function checkInput() {
-        var check_Lateness = document.getElementById("check_Lateness");
-        var text_latenessReason = document.getElementById("text_latenessReason");
-        if (check_Lateness.checked) {
-            if (text_latenessReason.value.trim() === "") {
-                text_latenessReason.setCustomValidity("遅刻理由を記入してください");
-            }
-            else {
-                text_latenessReason.setCustomValidity("");
-            }
-        }
-    }
-
-</script>
 </html>

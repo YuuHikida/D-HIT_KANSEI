@@ -55,21 +55,21 @@
                 </div>
                 <div class="col-md-12 d-flex flex-row gap-5">
                     <div class="form-check">
-                        <input class="form-check-input" type="checkbox" value="true" id="flexCheckDisabled"
+                        <input class="form-check-input" type="checkbox" value="true" id="check_Lateness"
                                name="isLateness" th:checked="${reportCreateInput.isLateness}"/>
-                        <label class="form-check-label" for="flexCheckDisabled">遅刻</label>
+                        <label class="form-check-label" for="check_Lateness">遅刻</label>
                     </div>
 
                     <div class="form-check">
-                        <input class="form-check-input" type="checkbox" value="true" id="flexCheckCheckedDisabled"
+                        <input class="form-check-input" type="checkbox" value="true" id="check_LeftEarly"
                                name="isLeftEarly" th:checked="${reportCreateInput.isLeftEarly}"/>
-                        <label class="form-check-label" for="flexCheckCheckedDisabled">早退</label>
+                        <label class="form-check-label" for="check_LeftEarly">早退</label>
                     </div>
                 </div>
                 <div class="col-12 d-flex flex-row align-items-center gap-3">
                     <label class="text-nowrap">※遅刻の場合は理由を記入</label>
-                    <label for="exampleFormControl"></label>
-                    <textarea name="latenessReason" class="form-control" id="exampleFormControl" rows="3"></textarea>
+                    <label for="text_latenessReason"></label>
+                    <textarea name="latenessReason" class="form-control" id="text_latenessReason" rows="3"></textarea>
                 </div>
                 <div class="col-md-12 d-flex flex-row gap-3">
                     <label class="text-nowrap">本日の体調</label>
@@ -82,15 +82,15 @@
                 </div>
                 <div class="col-12 d-flex flex-row align-items-center gap-3">
                     <label class="text-nowrap">1日の感想</label>
-                    <label for="exampleFormControlTextarea1"></label><textarea name="impressions" class="form-control"
-                                                                               id="exampleFormControlTextarea1"
+                    <label for="text_impressions"></label><textarea name="impressions" class="form-control"
+                                                                               id="text_impressions"
                                                                                rows="3" required></textarea>
                 </div>
                 <div class="col-12 d-flex flex-row align-items-center gap-3">
                     <label class="text-nowrap">明日の予定</label>
-                    <label for="exampleFormControlTextarea2"></label><textarea class="form-control"
+                    <label for="text_tomorrowSchedule"></label><textarea class="form-control"
                                                                                name="tomorrowSchedule"
-                                                                               id="exampleFormControlTextarea2"
+                                                                               id="text_tomorrowSchedule"
                                                                                rows="3" required></textarea>
                 </div>
                 <div class="col-12 d-flex flex-column gap-2" id="todo-field">
@@ -119,32 +119,6 @@
         </div>
     </div>
 </div>
+<script th:src="@{/report.js}"></script>
 </body>
-
-<script th:inline="javascript">
-    const elem = document.getElementById("add-todo");
-    const todoField = document.getElementById("todo-field");
-    let taskIndex = /*[[${reportCreateInput.taskLogs.size()}]]*/;
-
-    elem.onclick = function() {
-      const node = document.createElement("div");
-      node.setAttribute("class", "row");
-      node.innerHTML += `<div class="flex-row d-flex gap-3 col-md-8">
-                                <input type="text" class="form-control" placeholder="タスク名" aria-label=""
-                                       name="${'taskLogs[' + taskIndex + '].name'}" required>
-                                <input type="number" class="form-control" placeholder="進捗率" aria-label=""
-                                       name="${'taskLogs[' + taskIndex + '].progressRate'}" min="0" max="100" required>
-                                <button type="button" class="btn btn-danger" onclick="removeTask(this)">削除</button>
-                            </div>`;
-
-      todoField.appendChild(node);
-      taskIndex++;
-    };
-
-    function removeTask(button) {
-       button.parentNode.parentNode.remove();
-    }
-    /*]]>*/
-
-</script>
 </html>
