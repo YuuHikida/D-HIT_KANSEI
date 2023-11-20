@@ -1,4 +1,3 @@
-drop table IF EXiSTS `tran_task`;
 drop table IF EXiSTS `task_log`;
 drop table IF EXiSTS `report`;
 drop table IF EXiSTS `user`;

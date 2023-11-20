@@ -2,6 +2,7 @@ package analix.DHIT.controller;
 
 import analix.DHIT.input.MemberSearchInput;
 import analix.DHIT.input.ReportSearchInput;
+import analix.DHIT.input.UserCreateInput;
 import analix.DHIT.model.Report;
 import analix.DHIT.model.TaskLog;
 import analix.DHIT.model.User;
@@ -13,10 +14,12 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Locale;
+
 
 @Controller
 @RequestMapping("/manager")
@@ -44,7 +47,8 @@ public class ManagerController {
         String today = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy年M月d日(E)", Locale.JAPANESE));
         model.addAttribute("today", today);
 
-        if (searchCharacters==null){
+        //アイコン探し
+        if (searchCharacters == null) {
             model.addAttribute("members", userService.getAllMember());
             model.addAttribute("memberSearchInput", new MemberSearchInput());
             return "manager/home";
@@ -65,6 +69,7 @@ public class ManagerController {
         redirectAttributes.addAttribute("searchCharacters", memberSearchInput.getSearchCharacters());
 
         return "redirect:/manager/home";
+
     }
 
     @GetMapping("/report-search")
@@ -111,6 +116,7 @@ public class ManagerController {
         model.addAttribute("taskLogs", taskLogs);
         model.addAttribute("member", member);
 
+
         model.addAttribute("beforeReportId", reportService.getBeforeIdById(reportId));
         model.addAttribute("afterReportId", reportService.getAfterIdById(reportId));
 
@@ -119,5 +125,42 @@ public class ManagerController {
 
         return "manager/report-detail";
     }
+
+
+    //↓新規社員登録画面表示
+    @GetMapping("/create")
+    public String display(Model model) {
+        model.addAttribute("userCreateInput", new UserCreateInput());
+        return "manager/create";
+    }
+
+    //↓新規社員情報入力処理
+    @PostMapping("/createEmployee")
+    public String NewUserRegistrationInformation(@ModelAttribute("UserCreateInput") UserCreateInput userCreateInput,
+                                                 RedirectAttributes redirectAttributes){
+
+        //employeeCodeが重複してないかチェック
+        Integer employeeCode = userService.checkDuplicates(userCreateInput.getEmployeeCode());
+
+        if (employeeCode != null) {
+            //employeeCodeが重複してるため、画面リダイレクトでerrorを表示
+            redirectAttributes.addFlashAttribute("EmployeeCodeError", "社員番号が重複しています");
+            return "redirect:/manager/create";
+        }
+        //もしアイコン&パスワードが正常にDBに処理できなかったらリダイレクトerror
+        try
+        {
+            userService.encodePasswordSha256(userCreateInput);
+            userService.base64Converter(userCreateInput);
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("EncodeError","エラーが出ました" + e.getMessage());
+            return "redirect:/manager/create";
+        }
+        //inputデータをDBへ
+        userService.createEmployeeInformation(userCreateInput);
+        //作業完了画面に飛ばす
+        return "/manager/workCompletion";
+    }
+
 
 }

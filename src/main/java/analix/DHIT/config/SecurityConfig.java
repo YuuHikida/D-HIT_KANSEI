@@ -31,21 +31,22 @@ public class SecurityConfig {
 
         ).logout(
                 logout -> logout
-                        .logoutUrl("/logout")
-                        .logoutSuccessUrl("/login")
+
+                .logoutUrl("/logout")
+                .logoutSuccessUrl("/login")
+
         ).authorizeHttpRequests(auth -> auth
                 .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
                 .requestMatchers("/login").permitAll()
                 .requestMatchers("/manager/**").hasRole("MANAGER")
                 .requestMatchers("/member/**").hasRole("MEMBER")
                 .anyRequest().authenticated()
+
         ).exceptionHandling(ex -> ex.accessDeniedPage("/"));
 
         return http.build();
 
     }
-
-
 }
 
 

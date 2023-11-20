@@ -18,6 +18,7 @@ public interface TaskLogMapper {
             "VALUES(#{reportId}, #{name}, #{progressRate})")
     void insertTaskLog(TaskLog taskLog);
 
+    //全部消しメソッド
     @Delete("DELETE FROM task_log WHERE report_id = #{reportId}")
     void deleteByReportId(int reportId);
 }

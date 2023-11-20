@@ -1,6 +1,7 @@
 package analix.DHIT.mapper;
 
 import analix.DHIT.model.Report;
+import analix.DHIT.model.User;
 import org.apache.ibatis.annotations.*;
 
 import java.time.LocalDate;
@@ -45,6 +46,10 @@ public interface ReportMapper {
             "is_left_early = #{isLeftEarly} " +
             "WHERE id = #{id}")
     void updateReport(Report report);
+
+    //reportテーブルのemployeeCodeに紐づいているIdを全取得
+    @Select("SELECT id FROM report WHERE employee_code=#{employeeCode}")
+    List<Integer> selectIdsByEmployeeCode(int employeeCode);
 
 
 }

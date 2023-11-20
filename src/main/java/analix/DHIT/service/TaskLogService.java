@@ -39,6 +39,7 @@ public class TaskLogService {
         this.taskLogRepository.save(taskLog);
     }
 
+    //これ task_log 全消しメソッド
     public void deleteByReportId(int reportId){
         this.taskLogRepository.deleteByReportId(reportId);
     }

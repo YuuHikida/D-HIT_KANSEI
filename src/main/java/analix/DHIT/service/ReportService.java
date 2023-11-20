@@ -1,17 +1,16 @@
 package analix.DHIT.service;
 
 import analix.DHIT.exception.ReportNotFoundException;
-import analix.DHIT.input.ReportCreateInput;
 import analix.DHIT.input.ReportUpdateInput;
 import analix.DHIT.mapper.ReportMapper;
 import analix.DHIT.model.Report;
 import analix.DHIT.repository.ReportRepository;
 import org.springframework.stereotype.Service;
 
-import java.sql.SQLOutput;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.temporal.ChronoUnit;
+import java.util.List;
 
 @Service
 public class ReportService {
@@ -110,6 +109,11 @@ public class ReportService {
 
         this.reportRepository.update(report);
 
+    }
+
+    //reportテーブルのemployeeCodeに紐づいているId全取得
+    public  List<Integer> getIdsByEmployeeCode(int employeeCode){
+        return this.reportMapper.selectIdsByEmployeeCode(employeeCode);
     }
 
 }

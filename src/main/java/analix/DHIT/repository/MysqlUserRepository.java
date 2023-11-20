@@ -2,7 +2,6 @@ package analix.DHIT.repository;
 
 import analix.DHIT.mapper.UserMapper;
 import analix.DHIT.model.User;
-import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -31,4 +30,12 @@ public class MysqlUserRepository implements UserRepository {
     public List<User> selectMemberBySearchCharacters(String searchCharacters){
         return this.userMapper.selectMemberBySearchCharacters(searchCharacters);
     }
+    @Override
+    public User save(User user) {
+        return null;
+    }
+
+    @Override
+    public List<User> selectAllEmployeeInfomation(){return this.userMapper.selectAllEmployeeInfo();}
+
 }
