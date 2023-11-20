@@ -55,10 +55,9 @@
                 <img th:src="'data:image/png;base64,' + ${userList.icon}" class="rounded-circle" style="max-width: 50px;"/>
             </td>
             <td>
-                <form th:action="@{/manager/employeeList-edit}" method="post">
+                <form th:action="@{/manager/employeeList-edit}" method="get">
                     <input type="submit" class="btn btn-outline-primary" name="edit" value="編集">
                     <input type="hidden" name="employeeCode" th:value="${userList.employeeCode}" />
-                    <input type="hidden" name="name" th:value="${userList.name}" />
                 </form>
             </td>
             <td>
