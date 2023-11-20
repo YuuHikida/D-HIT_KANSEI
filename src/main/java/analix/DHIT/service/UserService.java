@@ -2,6 +2,7 @@ package analix.DHIT.service;
 
 import analix.DHIT.exception.UserNotFoundException;
 import analix.DHIT.input.UserCreateInput;
+import analix.DHIT.input.UserEditInput;
 import analix.DHIT.mapper.UserMapper;
 import analix.DHIT.model.User;
 import analix.DHIT.repository.UserRepository;
@@ -57,6 +58,14 @@ public class UserService {
         return userCreateInput;
     }
 
+//    //passwordをsha256処理(ジェネリック型の処理)もしエラーが出たら上記のやつを復活させて
+//    public <T extends UserCreateInput> T encodePasswordSha256(T userCreateInput) {
+//        String test = PasswordEncoderService.convertPassword(userCreateInput);
+//        userCreateInput.setPassword(test);
+//        return userCreateInput;
+//    }
+
+
     //IconをBase64へ
     public Object base64Converter(UserCreateInput userCreateInput) {
         if (userCreateInput.getIcon() != null) {
@@ -90,5 +99,33 @@ public class UserService {
     public void deleteById(int employeeCode)
     {
         this.userMapper.deleteById(employeeCode);
+    }
+    //ユーザー編集用のsha256
+    public UserEditInput encodePasswordSha256EditVer(UserEditInput userEditInput)
+    {
+        String test = PasswordEncoderEditVerService.convertPassword(userEditInput);
+        userEditInput.setPassword(test);
+        return userEditInput;
+    }
+
+    //ユーザー編集用のIconをBase64へ
+    public Object base64ConverterEditVer(UserEditInput userEditInput) {
+        if (userEditInput.getIcon() != null) {
+            try {
+                byte[] iconfileBytes = userEditInput.getIcon().getBytes();
+                String base64String = Base64.getEncoder().encodeToString(iconfileBytes);
+                userEditInput.setConvertIcon(base64String);
+                return "成功";
+            } catch (IOException e) {
+                e.printStackTrace();
+                return null;
+            }
+        }
+        return "成功";
+    }
+
+    public void EditemployeeInfomation(UserEditInput userEditInput)
+    {
+        this.userMapper.editEmployeeInfomation(userEditInput);
     }
 }

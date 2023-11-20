@@ -1,6 +1,7 @@
 package analix.DHIT.mapper;
 
 import analix.DHIT.input.UserCreateInput;
+import analix.DHIT.input.UserEditInput;
 import analix.DHIT.model.User;
 import org.apache.ibatis.annotations.*;
 
@@ -32,6 +33,8 @@ public interface UserMapper {
     @Delete("DELETE FROM user WHERE employee_code = #{employeeCode}")
     void deleteById(int employeeCode);
 
-
+    //既存ユーザー編集
+    @Update("UPDATE user SET name=#{name}, password=#{password}, role=#{role}, icon=#{convertIcon} WHERE employee_code=#{employeeCode}")
+    void editEmployeeInfomation(UserEditInput userEditInput);
 
 }
