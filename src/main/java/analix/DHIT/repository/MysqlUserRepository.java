@@ -30,21 +30,12 @@ public class MysqlUserRepository implements UserRepository {
     public List<User> selectMemberBySearchCharacters(String searchCharacters){
         return this.userMapper.selectMemberBySearchCharacters(searchCharacters);
     }
-
     @Override
     public User save(User user) {
         return null;
     }
 
     @Override
-    public List<User> selectAllEmployeeInfomation() {
-        return this.userMapper.selectAllEmployeeInfo();
-    }
-
-    @Override
-    public  void userDelete(int employeeCode)
-    {
-        this.userMapper.userDelete(employeeCode);
-    }
+    public List<User> selectAllEmployeeInfomation(){return this.userMapper.selectAllEmployeeInfo();}
 
 }

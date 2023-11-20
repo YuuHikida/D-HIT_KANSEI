@@ -27,6 +27,11 @@ public interface UserMapper {
 
     @Select("SELECT * FROM user")
     List<User> selectAllEmployeeInfo();
-    @Delete("DELETE FROM user WHERE employee_code =#{employeeCode}")
-    void userDelete(int employeeCode);
+
+    //削除機能の最後に使うuser削除
+    @Delete("DELETE FROM user WHERE employee_code = #{employeeCode}")
+    void deleteById(int employeeCode);
+
+
+
 }

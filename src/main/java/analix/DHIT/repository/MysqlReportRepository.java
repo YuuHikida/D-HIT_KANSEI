@@ -4,6 +4,8 @@ import analix.DHIT.mapper.ReportMapper;
 import analix.DHIT.model.Report;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public class MysqlReportRepository implements ReportRepository {
     private final ReportMapper reportMapper;

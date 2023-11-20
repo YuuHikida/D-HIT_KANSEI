@@ -10,5 +10,5 @@ public interface UserRepository {
     List<User> selectMemberBySearchCharacters(String searchCharacters);
     User save(User user);
     List<User> selectAllEmployeeInfomation();
-    void userDelete(int employeeCode);
+
 }

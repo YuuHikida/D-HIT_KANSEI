@@ -14,8 +14,9 @@
 <h2>選択した従業員を削除しますか？</h2>
 <p>*一度行った操作は取り消せません</p>
 <!--<form th:action="@{/manager/employeeList-deleteComplete}" method="get">-->
-    <form th:action="@{/manager/employeeList-deleteComplete}" method="get">
+    <form th:action="@{/manager/employeeList-deleteComplete}" method="post">
         <input type="hidden" name="employeeCode" th:value="${employeeCode}" />
+        <input type="hidden" name="name" th:value="${name}" />
     <button type="submit">はい</button>
 </form>
 <a th:href="@{/manager/employeeList}">

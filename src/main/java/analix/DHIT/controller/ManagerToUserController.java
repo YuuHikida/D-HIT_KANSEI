@@ -1,13 +1,13 @@
 package analix.DHIT.controller;
 
 import analix.DHIT.model.User;
+import analix.DHIT.service.ReportService;
+import analix.DHIT.service.TaskLogService;
 import analix.DHIT.service.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -18,9 +18,12 @@ import java.util.List;
 @RequestMapping("/manager")
 public class ManagerToUserController {
     private final UserService userService;
-
-    public ManagerToUserController(UserService userService) {
+    private final ReportService reportService;
+    private final TaskLogService taskLogService;
+    public ManagerToUserController(UserService userService, ReportService reportService, TaskLogService taskLogService) {
         this.userService = userService;
+        this.reportService = reportService;
+        this.taskLogService = taskLogService;
     }
 
     //全社員情報一覧表示
@@ -54,11 +57,23 @@ public class ManagerToUserController {
 
 
     //削除完了画面表示及び、削除処理
-    @GetMapping("employeeList-deleteComplete")
-    public String deletionProcess(@RequestParam("employeeCode")int employeeCode)
+    @PostMapping("employeeList-deleteComplete")
+    @Transactional
+    public String deletionProcess(@RequestParam("employeeCode")int employeeCode,
+                                  @RequestParam("name")String name,
+                                  RedirectAttributes redirectAttributes)
     {
-        System.out.println("きてるかああああああああああああああああああああああああああああ");
-        userService.userDelete(employeeCode);
-        return "/manager/employeeList-deleteComplete";
+        //reportテーブルのemployeeCodeに紐づいているidを全取得
+        List<Integer> reportIdAllIdGet= reportService.getIdsByEmployeeCode(employeeCode);
+        //task_logのreport_idを削除
+        //reportテーブルのemployeeCodeに紐づいているidを全削除
+        for (Integer id : reportIdAllIdGet) {
+            taskLogService.deleteByReportId(id);
+            reportService.deleteById(id);
+        }
+        //userテーブルの値を全部削除
+        userService.deleteById(employeeCode);
+        redirectAttributes.addFlashAttribute("deleteCompleteMSG",name+"を削除しました");
+        return "redirect:/manager/employeeList";
     }
 }

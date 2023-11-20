@@ -85,9 +85,10 @@ public class UserService {
         return this.userRepository.selectAllEmployeeInfomation();
     }
 
+
     //ユーザー削除
-    public void userDelete(int employeeCode)
+    public void deleteById(int employeeCode)
     {
-        this.userRepository.userDelete(employeeCode);
+        this.userMapper.deleteById(employeeCode);
     }
 }
