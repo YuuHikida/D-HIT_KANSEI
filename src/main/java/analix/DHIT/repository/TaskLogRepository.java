@@ -12,5 +12,6 @@ public interface TaskLogRepository {
     void save(TaskLog taskLog);
 
     void deleteByReportId(int reportId);
+
 }
 

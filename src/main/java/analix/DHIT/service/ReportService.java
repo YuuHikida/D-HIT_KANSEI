@@ -2,6 +2,7 @@ package analix.DHIT.service;
 
 import analix.DHIT.exception.ReportNotFoundException;
 import analix.DHIT.input.ReportCreateInput;
+import analix.DHIT.input.ReportUpdateInput;
 import analix.DHIT.mapper.ReportMapper;
 import analix.DHIT.model.Report;
 import analix.DHIT.repository.ReportRepository;
@@ -92,6 +93,23 @@ public class ReportService {
 
     public void deleteById(int reportId) {
         this.reportRepository.deleteById(reportId);
+    }
+
+    public void update(ReportUpdateInput reportUpdateInput){
+
+        Report report = this.reportMapper.SelectById(reportUpdateInput.getReportId());
+
+        report.setStartTime(reportUpdateInput.getStartTime());
+        report.setEndTime(reportUpdateInput.getEndTime());
+        report.setIsLateness(reportUpdateInput.getIsLateness());
+        report.setLatenessReason(reportUpdateInput.getLatenessReason());
+        report.setIsLeftEarly(reportUpdateInput.getIsLeftEarly());
+        report.setCondition(reportUpdateInput.getCondition());
+        report.setTomorrowSchedule(reportUpdateInput.getTomorrowSchedule());
+        report.setImpressions(reportUpdateInput.getImpressions());
+
+        this.reportRepository.update(report);
+
     }
 
 }

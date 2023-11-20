@@ -26,4 +26,9 @@ public class MysqlReportRepository implements ReportRepository {
     public void deleteById(int reportId) {
         this.reportMapper.deleteById(reportId);
     }
+
+    @Override
+    public void update(Report report) {
+        this.reportMapper.updateReport(report);
+    }
 }
