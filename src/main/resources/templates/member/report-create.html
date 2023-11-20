@@ -34,20 +34,23 @@
                 <div class="col-md-12 d-flex flex-row align-items-center gap-3">
                     <p class="text-center">日付</p>
                     <div class="cs-form">
-                        <input type="date" class="form-control" name="date" th:value="${reportCreateInput.date}" required/>
+                        <input type="date" class="form-control" name="date" th:value="${reportCreateInput.date}"
+                               required/>
                     </div>
                 </div>
 
                 <div class="col-md-12 d-flex flex-row align-items-center gap-3">
                     <p class="text-center">出勤時間</p>
                     <div class="cs-form">
-                        <input type="time" class="form-control" name="startTime" th:value="${reportCreateInput.startTime}" required />
+                        <input type="time" class="form-control" name="startTime"
+                               th:value="${reportCreateInput.startTime}" required/>
                     </div>
                 </div>
                 <div class="col-md-12 d-flex flex-row align-items-center gap-3">
                     <p class="text-center">退勤時間</p>
                     <div class="cs-form">
-                        <input type="time" class="form-control" name="endTime" th:value="${reportCreateInput.endTime}" required/>
+                        <input type="time" class="form-control" name="endTime" th:value="${reportCreateInput.endTime}"
+                               required/>
                     </div>
                 </div>
                 <div class="col-md-12 d-flex flex-row gap-5">
@@ -56,7 +59,7 @@
                 <div class="col-md-12 d-flex flex-row gap-5">
                     <div class="form-check">
                         <input class="form-check-input" type="checkbox" value="true" id="check_Lateness"
-                               onchange="checkInput()" name="isLateness" th:checked="${reportCreateInput.isLateness}"/>
+                               name="isLateness" th:checked="${reportCreateInput.isLateness}"/>
                         <label class="form-check-label" for="check_Lateness">遅刻</label>
                     </div>
 
@@ -69,7 +72,7 @@
                 <div class="col-12 d-flex flex-row align-items-center gap-3">
                     <label class="text-nowrap">※遅刻の場合は理由を記入</label>
                     <label for="text_latenessReason"></label>
-                    <textarea onchange="checkInput()" name="latenessReason" class="form-control" id="text_latenessReason" rows="3"></textarea>
+                    <textarea name="latenessReason" class="form-control" id="text_latenessReason" rows="3"></textarea>
                 </div>
                 <div class="col-md-12 d-flex flex-row gap-3">
                     <label class="text-nowrap">本日の体調</label>
@@ -83,15 +86,15 @@
                 <div class="col-12 d-flex flex-row align-items-center gap-3">
                     <label class="text-nowrap">1日の感想</label>
                     <label for="text_impressions"></label><textarea name="impressions" class="form-control"
-                                                                               id="text_impressions"
-                                                                               rows="3" required></textarea>
+                                                                    id="text_impressions"
+                                                                    rows="3" required></textarea>
                 </div>
                 <div class="col-12 d-flex flex-row align-items-center gap-3">
                     <label class="text-nowrap">明日の予定</label>
                     <label for="text_tomorrowSchedule"></label><textarea class="form-control"
-                                                                               name="tomorrowSchedule"
-                                                                               id="text_tomorrowSchedule"
-                                                                               rows="3" required></textarea>
+                                                                         name="tomorrowSchedule"
+                                                                         id="text_tomorrowSchedule"
+                                                                         rows="3" required></textarea>
                 </div>
                 <div class="col-12 d-flex flex-column gap-2" id="todo-field">
                     <div class="d-flex gap-2">
@@ -157,6 +160,32 @@
             }
         }
     }
+
+    // 遅刻のcheckbokにvalidationをチェックします。
+    document.addEventListener('DOMContentLoaded', function() {
+    var isLateness = document.getElementById('check_Lateness');
+     var text_latenessReason = document.getElementById('text_latenessReason');
+
+     isLateness.addEventListener('change', function() {
+         if (this.checked) {
+             validateInput();
+         } else {
+             text_latenessReason.setCustomValidity("");
+         }
+     });
+     text_latenessReason.addEventListener('input', function() {
+         if (isLateness.checked) {
+             validateInput();
+         }
+     });
+     function validateInput() {
+         if (text_latenessReason.value.trim() === '') {
+             text_latenessReason.setCustomValidity("遅刻理由を記入してください");
+	         } else {
+             text_latenessReason.setCustomValidity("");
+         }
+     }
+ });
 
 </script>
 </html>
