@@ -130,8 +130,6 @@ public class ManagerController {
         return "manager/report-detail";
     }
 
-
-    //↓新規社員登録画面表示
     @GetMapping("/create")
     public String display(Model model) {
         model.addAttribute("userCreateInput", new UserCreateInput());
@@ -143,7 +141,6 @@ public class ManagerController {
     public String NewUserRegistrationInformation(@ModelAttribute("UserCreateInput") UserCreateInput userCreateInput,
                                                  RedirectAttributes redirectAttributes){
 
-        //employeeCodeが重複してないかチェック
         Integer employeeCode = userService.checkDuplicates(userCreateInput.getEmployeeCode());
 
         if (employeeCode != null) {
@@ -186,7 +183,6 @@ public class ManagerController {
         String loggedEmployeeCode = auth.getName();
         // ユーザーが削除しようとしているemployeeCodeとログイン中のemployeeCodeを比較
         if (loggedEmployeeCode.equals(String.valueOf(employeeCode))) {
-//            var errorEmployeeMsg=ResponseEntity.status(HttpStatus.BAD_REQUEST).body("ログイン中のユーザーの編集・削除は出来ません");
             redirectAttributes.addFlashAttribute("errorEmployeeMsg", "ログイン中のユーザーの編集・削除は出来ません");
             return "redirect:/manager/employeeList";
         }
@@ -232,26 +228,6 @@ public class ManagerController {
 
         return "manager/employeeList-edit";
     }
-    //
-//    //編集処理
-//    @PostMapping("editEmployeeComplete")
-//    public String editingProcess(@ModelAttribute("userEditInput") UserEditInput userEditInput,
-//                                 @RequestParam("employeeCode")int employeeCode,
-//                                 RedirectAttributes redirectAttributes) {
-//        try {
-//            //passwordをsha256処理
-//            userService.encodePasswordSha256EditVer(userEditInput);
-//            userService.base64ConverterEditVer(userEditInput);
-//        } catch (Exception e) {
-//            redirectAttributes.addFlashAttribute("EncodeError", "エラーが出ました" + e.getMessage());
-//            return "redirect:/manager/employeeList-edit";
-//        }
-//        //DBへデータ変更処理
-//        userService.EditemployeeInfomation(userEditInput);
-//        redirectAttributes.addFlashAttribute("editCompleteMSG","社員番号:"+employeeCode+"の情報を更新しました");
-//        redirectAttributes.addAttribute("employeeCode",employeeCode);
-//        return "redirect:/manager/employeeList";
-//    }
     //編集画面処理
     @PostMapping("editEmployeeComplete")
     public String editingProcess(@ModelAttribute("userEditInput") UserEditInput userEditInput,
@@ -259,7 +235,8 @@ public class ManagerController {
                                  RedirectAttributes redirectAttributes) {
         Exception ErrorMSG = userService.checkTest(userEditInput, employeeCode);
         if (ErrorMSG != null) {
-            redirectAttributes.addFlashAttribute("EncodeError", "エラーが出ました" + ErrorMSG);
+            redirectAttributes.addFlashAttribute("EncodeError", "更新失敗:imageファイル以外送らないでください");
+            redirectAttributes.addAttribute("employeeCode", employeeCode);
             return "redirect:/manager/employeeList-edit";
         }
         redirectAttributes.addFlashAttribute("editCompleteMSG", "社員番号:" + employeeCode + "の情報を更新しました");
