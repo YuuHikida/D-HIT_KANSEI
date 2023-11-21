@@ -124,7 +124,8 @@ public class ManagerToUserController {
                                  RedirectAttributes redirectAttributes) {
         Exception ErrorMSG = userService.checkTest(userEditInput, employeeCode);
         if (ErrorMSG != null) {
-            redirectAttributes.addFlashAttribute("EncodeError", "エラーが出ました" + ErrorMSG);
+            redirectAttributes.addFlashAttribute("EncodeError", "更新失敗:imageファイル以外送らないでください");
+            redirectAttributes.addAttribute("employeeCode", employeeCode);
             return "redirect:/manager/employeeList-edit";
         }
         redirectAttributes.addFlashAttribute("editCompleteMSG", "社員番号:" + employeeCode + "の情報を更新しました");
