@@ -35,7 +35,7 @@ public class ManagerToUserController {
     public String displayEmployeeList(Model model) {
         List<User> userList = userService.getAllEmployeeInfo();
         model.addAttribute("userList", userList);
-        return "/manager/employeeList";
+        return "manager/employeeList";
     }
 
     //社員削除画面表示
@@ -57,7 +57,7 @@ public class ManagerToUserController {
         }
         model.addAttribute("name", name);
         model.addAttribute("employeeCode", employeeCode);
-        return "/manager/employeeList-deleteUser";
+        return "manager/employeeList-deleteUser";
     }
 
 
@@ -95,28 +95,8 @@ public class ManagerToUserController {
         model.addAttribute("userEditInput", new UserEditInput());
         model.addAttribute("employeeCode", employeeCode);
 
-        return "/manager/employeeList-edit";
+        return "manager/employeeList-edit";
     }
-//
-//    //編集処理
-//    @PostMapping("editEmployeeComplete")
-//    public String editingProcess(@ModelAttribute("userEditInput") UserEditInput userEditInput,
-//                                 @RequestParam("employeeCode")int employeeCode,
-//                                 RedirectAttributes redirectAttributes) {
-//        try {
-//            //passwordをsha256処理
-//            userService.encodePasswordSha256EditVer(userEditInput);
-//            userService.base64ConverterEditVer(userEditInput);
-//        } catch (Exception e) {
-//            redirectAttributes.addFlashAttribute("EncodeError", "エラーが出ました" + e.getMessage());
-//            return "redirect:/manager/employeeList-edit";
-//        }
-//        //DBへデータ変更処理
-//        userService.EditemployeeInfomation(userEditInput);
-//        redirectAttributes.addFlashAttribute("editCompleteMSG","社員番号:"+employeeCode+"の情報を更新しました");
-//        redirectAttributes.addAttribute("employeeCode",employeeCode);
-//        return "redirect:/manager/employeeList";
-//    }
     //編集画面処理
     @PostMapping("editEmployeeComplete")
     public String editingProcess(@ModelAttribute("userEditInput") UserEditInput userEditInput,
