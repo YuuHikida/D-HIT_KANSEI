@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>analix</groupId>
 	<artifactId>D-HIT</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>0.0.2-SNAPSHOT</version>
 	<name>D-HIT</name>
 	<description>D-hit project for Spring Boot</description>
 	<properties>
