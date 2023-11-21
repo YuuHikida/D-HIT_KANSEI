@@ -9,6 +9,7 @@ import analix.DHIT.repository.UserRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.Base64;
@@ -108,22 +109,24 @@ public class UserService {
     }
 
     //ユーザー編集用のIconをBase64へ
-    public Exception base64ConverterEditVer(UserEditInput userEditInput) {
+    public void base64ConverterEditVer(UserEditInput userEditInput) throws IOException {
         if (userEditInput.getIcon() != null) {
-            try {
-                System.out.println("↓これええええ");
-                System.out.println(userEditInput.getIcon());
+
+                System.out.println("↓これ");
+                System.out.println(userEditInput.getIcon().getContentType());
+                MultipartFile iconFile = userEditInput.getIcon();
+                //imageファイル以外はerror出す
+//                if (iconFile != null && !iconFile.isEmpty() && !iconFile.getContentType().startsWith("image")) {
+                // アイコンファイルが存在し、空ではない、かつ画像ではない場合の処理
+                if (iconFile != null && !iconFile.isEmpty() && !iconFile.getContentType().startsWith("image")) {
+                     throw new IOException(":");
+                }
                 byte[] iconfileBytes = userEditInput.getIcon().getBytes();
                 String base64String = Base64.getEncoder().encodeToString(iconfileBytes);
                 userEditInput.setConvertIcon(base64String);
-                return null;
-            } catch (Exception e) {
-                e.printStackTrace();
-                return e;
             }
         }
-        return null;
-    }
+
 
     public void EditemployeeInfomation(UserEditInput userEditInput) {
         this.userMapper.editEmployeeInfomation(userEditInput);
@@ -153,7 +156,7 @@ public class UserService {
         } else {
             try {
                 base64ConverterEditVer(userEditInput);
-            }catch(Exception e){
+            } catch (Exception e) {
                 return e;
             }
         }
