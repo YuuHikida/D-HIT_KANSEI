@@ -28,10 +28,12 @@
 <div class="container mt-5">
     <h1 class="mb-4">ユーザー編集画面</h1>
     <h2 th:text="${EncodeError}"></h2>
+    <h5>*更新したくない値がある場合何も入力しないでください*</h5>
     <div class="mb-3">
         <p>社員番号: <span th:text="${employeeCode}"></span></p>
 
     </div>
+
     <form th:action="@{/manager/editEmployeeComplete}" th:object="${userEditInput}" th:method="post" enctype="multipart/form-data" onsubmit="return validateForm()">
 <!--        ↓userEditInputに入れる用-->
         <input type="hidden" name="employeeCode" th:value="${employeeCode}">
