@@ -44,13 +44,15 @@
                 margin-bottom: 5px;
                 width : 50%;
             }
+            .navbar {
+                display: flex;
+            }
         }
 
         @media (min-width: 769px) {
             #form-select_mb{
                 width : 300px;
             }
-
         }
     </style>
 
@@ -62,7 +64,6 @@
         <div class="card-body">
             <form class="row g-3 p-3" th:action="@{/member/report/create}" th:object="${ReportCreateInput}"
                   method="post">
-
                 <div th:if="${error != null}" class="text-center mb-4">
                     <h3 style="color: red;" th:text="${error}"></h3>
                 </div>
