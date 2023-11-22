@@ -12,9 +12,43 @@
 
     <style>
         .btn-danger {
-          width: 20%;
-          white-space: nowrap;
-          float: left;
+            white-space: nowrap;
+            float: left;
+        }
+        @media (max-width: 768px) {
+            .overflow-x-hidden {
+                overflow-x: hidden !important;
+            }
+            .d-flex {
+                display: block !important;
+            }
+
+            #startTime_mb, #endTime_mb, #date_mb, #radio-check_mb {
+                display: flex !important;
+            }
+
+            .row .d-flex {
+                margin-top: 5px;
+                margin-bottom: 5px;
+            }
+            #form-select_mb{
+                width : 100%;
+            }
+
+            .d-flex input[type="text"] {
+                margin-top: 5px;
+                margin-bottom: 5px;
+            }
+            .d-flex input[type="number"] {
+                margin-bottom: 5px;
+                width : 50%;
+            }
+        }
+
+        @media (min-width: 769px) {
+            #form-select_mb{
+                width : 300px;
+            }
         }
     </style>
 
@@ -31,7 +65,7 @@
                     <input type="hidden" name="reportId" th:value="${report.id}"/>
                 </div>
 
-                <div class="col-md-12 d-flex flex-row align-items-center gap-3">
+                <div id= "date_mb" class="col-md-12 d-flex flex-row align-items-center gap-3">
                     <p class="text-center">日付</p>
                     <div class="cs-form">
                         <input type="date" class="form-control" name="date" th:value="${report.date}" required
@@ -39,14 +73,14 @@
                     </div>
                 </div>
 
-                <div class="col-md-12 d-flex flex-row align-items-center gap-3">
+                <div id= "startTime_mb" class="col-md-12 d-flex flex-row align-items-center gap-3">
                     <p class="text-center">出勤時間</p>
                     <div class="cs-form">
                         <input type="time" class="form-control" name="startTime" th:value="${report.startTime}"
                                required/>
                     </div>
                 </div>
-                <div class="col-md-12 d-flex flex-row align-items-center gap-3">
+                <div id= "endTime_mb" class="col-md-12 d-flex flex-row align-items-center gap-3">
                     <p class="text-center">退勤時間</p>
                     <div class="cs-form">
                         <input type="time" class="form-control" name="endTime" th:value="${report.endTime}" required/>
@@ -55,7 +89,7 @@
                 <div class="col-md-12 d-flex flex-row gap-5">
                     <label>※遅刻・早退の場合はチェックマーク</label>
                 </div>
-                <div class="col-md-12 d-flex flex-row gap-5">
+                <div id = "radio-check_mb" class="col-md-12 d-flex flex-row gap-5">
                     <div class="form-check">
                         <input class="form-check-input" type="checkbox" id="check_Lateness"
                                name="isLateness" th:checked="${report.isLateness}"/>
@@ -75,7 +109,7 @@
                 </div>
                 <div class="col-md-12 d-flex flex-row gap-3">
                     <label class="text-nowrap">本日の体調</label>
-                    <select class="form-select" name="condition" aria-label="example" style="width:300px;" required>
+                    <select id = "form-select_mb" class="form-select" name="condition" aria-label="example" required>
                         <option th:selected="${report.condition == '選択'}" disabled>選択</option>
                         <option th:selected="${report.condition == '良好'}" th:value="${'良好'}">良好</option>
                         <option th:selected="${report.condition == '普通'}" th:value="${'普通'}">普通</option>

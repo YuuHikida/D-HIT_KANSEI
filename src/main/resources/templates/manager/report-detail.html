@@ -61,6 +61,24 @@
             margin-bottom: 20px;
             padding: 15px;
         }
+        .row .col {
+            display : flex;
+        }
+        @media (max-width: 768px) {
+            .col button[type="button"] {
+                white-space: nowrap;
+                float: left;
+                text-align: center;
+                font-size: 0.64rem;
+                /*width : auto;*/
+
+            }
+            .col h2 {
+                font-size: 0.7rem;
+                margin-left: 2px;
+                margin-right: 2px;
+            }
+        }
     </style>
 </head>
 <body>
@@ -68,29 +86,28 @@
 
 <div class="container">
     <div class="section text-center">
-        <div class="row">
-            <div class="col">
-
-                <div th:if="${beforeReportId!=null}">
-                    <a th:href="@{'/manager/reports/' + ${beforeReportId}}">
-                        <button type="button" class="btn btn-primary">&lt; 前の日</button>
-                    </a>
+            <div class="row">
+                <div class="col">
+                    <div th:if="${beforeReportId!=null}">
+                        <a th:href="@{'/manager/reports/' + ${beforeReportId}}">
+                            <button type="button" class="btn btn-primary">&lt; 前の日</button>
+                        </a>
+                    </div>
+                </div>
+                <div class="col">
+                    <h2 th:text="${date}">日付</h2>
+                </div>
+                <div class="col">
+                    <h2 th:text="${member.name}">名前</h2>
+                </div>
+                <div class="col">
+                    <div th:if="${afterReportId!=null}">
+                        <a th:href="@{'/manager/reports/' + ${afterReportId}}">
+                            <button type="button" class="btn btn-primary">&gt; 次の日</button>
+                        </a>
+                    </div>
                 </div>
             </div>
-            <div class="col">
-                <h2 th:text="${date}">日付</h2>
-            </div>
-            <div class="col">
-                <h2 th:text="${member.name}">名前</h2>
-            </div>
-            <div class="col">
-                <div th:if="${afterReportId!=null}">
-                    <a th:href="@{'/manager/reports/' + ${afterReportId}}">
-                        <button type="button" class="btn btn-primary">&gt; 次の日</button>
-                    </a>
-                </div>
-            </div>
-        </div>
     </div>
 
     <div class="section text-center">

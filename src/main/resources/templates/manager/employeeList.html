@@ -22,6 +22,59 @@
         th, td {
             vertical-align: middle !important;
         }
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 1.3em;
+                margin-top: 13px;
+            }
+            table {
+                border: 0;
+            }
+
+            table thead {
+                border: none;
+                clip: rect(0 0 0 0);
+                height: 1px;
+                margin: -1px;
+                overflow: hidden;
+                padding: 0;
+                position: absolute;
+                width: 1px;
+            }
+
+            table tr {
+                border-bottom: 3px solid #ddd;
+                display: block;
+                margin-bottom: 1.2em;
+            }
+
+            table td {
+                border-bottom: 1px solid #ddd;
+                display: block;
+                font-size: 0.9em;
+                text-align: right;
+            }
+
+            table td  input[type="submit"] {
+                font-size: 0.9em;
+            }
+            table td  button[type="submit"] {
+                font-size: 0.9em;
+            }
+
+            table td::before {
+                content: attr(data-label);
+                float: left;
+                font-weight: bold;
+                text-transform: uppercase;
+            }
+
+            table td:last-child {
+                border-bottom: 0;
+            }
+
+        }
+        /* responsive table  */
     </style>
     <title>編集ユーザ一覧</title>
 </head>
@@ -50,20 +103,20 @@
         </thead>
         <tbody>
         <tr th:each="userList : ${userList}" th:object="${userList}" class="align-middle">
-            <td th:text="${userList.employeeCode}"></td>
-            <td th:text="${userList.name}"></td>
-            <td th:text="'*****'"></td>
-            <td th:text="${userList.role}"></td>
-            <td>
+            <td data-label="社員番号" th:text="${userList.employeeCode}"></td>
+            <td data-label="名前" th:text="${userList.name}"></td>
+            <td data-label="パスワード" th:text="'*****'"></td>
+            <td data-label="役割" th:text="${userList.role}"></td>
+            <td data-label="アイコン">
                 <img th:src="'data:image/png;base64,' + ${userList.icon}" class="rounded-circle" style="max-width: 50px;"/>
             </td>
-            <td>
+            <td data-label="編集">
                 <form th:action="@{/manager/employeeList-edit}" method="get">
                     <input type="submit" class="btn btn-outline-primary" name="edit" value="編集">
                     <input type="hidden" name="employeeCode" th:value="${userList.employeeCode}" />
                 </form>
             </td>
-            <td>
+            <td data-label="削除">
                 <form th:action="@{/manager/employeeList-deleteUser}" method="post">
                     <button type="submit" class="btn btn-outline-danger" name="delete" value="削除">削除</button>
                     <input type="hidden" name="employeeCode" th:value="${userList.employeeCode}" />
