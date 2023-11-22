@@ -142,19 +142,17 @@ public class ManagerController {
                                                  RedirectAttributes redirectAttributes){
 
         Integer employeeCode = userService.checkDuplicates(userCreateInput.getEmployeeCode());
-
         if (employeeCode != null) {
             //employeeCodeが重複してるため、画面リダイレクトでerrorを表示
             redirectAttributes.addFlashAttribute("EmployeeCodeError", "社員番号が重複しています");
             return "redirect:/manager/create";
         }
+        userService.encodePassword(userCreateInput);
         //もしアイコン&パスワードが正常にDBに処理できなかったらリダイレクトerror
-        try
-        {
-            userService.encodePasswordSha256(userCreateInput);
+        try {
             userService.base64Converter(userCreateInput);
         } catch (Exception e) {
-            redirectAttributes.addFlashAttribute("EncodeError","エラーが出ました" + e.getMessage());
+            redirectAttributes.addFlashAttribute("EncodeError","エラーが出ました");
             return "redirect:/manager/create";
         }
         //inputデータをDBへ
@@ -162,14 +160,12 @@ public class ManagerController {
         //作業完了画面に飛ばす
         return "manager/workCompletion";
     }
-
     @GetMapping("/employeeList")
     public String displayEmployeeList(Model model) {
         List<User> userList = userService.getAllEmployeeInfo();
         model.addAttribute("userList", userList);
         return "manager/employeeList";
     }
-
     //社員削除画面表示
     @PostMapping("employeeList-deleteUser")
     public String displayDeleteUser(@RequestParam("employeeCode") int employeeCode,

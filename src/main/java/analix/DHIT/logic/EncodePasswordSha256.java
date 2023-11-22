@@ -1,18 +1,15 @@
-package analix.DHIT.service;
+package analix.DHIT.logic;
 
-import analix.DHIT.input.UserCreateInput;
 import org.springframework.stereotype.Service;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-
 @Service
-public class PasswordEncoderService {
-    public static String hashStringToSHA256(String input) {
+public class EncodePasswordSha256 {
+    public  String encodePasswordSha256(String  instance) {
         try {
             MessageDigest digest = MessageDigest.getInstance("SHA-256");
-            byte[] hash = digest.digest(input.getBytes());
-
+            byte[] hash = digest.digest(instance.getBytes());
             StringBuilder hexString = new StringBuilder();
             for (byte b : hash) {
                 String hex = Integer.toHexString(0xff & b);
@@ -24,14 +21,7 @@ public class PasswordEncoderService {
             return hexString.toString();
         } catch (NoSuchAlgorithmException e) {
             e.printStackTrace();
-
             return null;
         }
-    }
-
-    public static String  convertPassword(UserCreateInput userCreateInput) {
-        String input = userCreateInput.getPassword();
-        System.out.println(input);
-        return hashStringToSHA256(input);
     }
 }
