@@ -4,3 +4,4 @@ main.iml
 target/
 *test.iml
 *application-development.properties
+application-development.properties

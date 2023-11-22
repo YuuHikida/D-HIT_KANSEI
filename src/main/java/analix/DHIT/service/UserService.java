@@ -116,10 +116,9 @@ public class UserService {
                 System.out.println(userEditInput.getIcon().getContentType());
                 MultipartFile iconFile = userEditInput.getIcon();
                 //imageファイル以外はerror出す
-//                if (iconFile != null && !iconFile.isEmpty() && !iconFile.getContentType().startsWith("image")) {
                 // アイコンファイルが存在し、空ではない、かつ画像ではない場合の処理
                 if (iconFile != null && !iconFile.isEmpty() && !iconFile.getContentType().startsWith("image")) {
-                     throw new IOException(":");
+                     throw new IOException("(TAT)");
                 }
                 byte[] iconfileBytes = userEditInput.getIcon().getBytes();
                 String base64String = Base64.getEncoder().encodeToString(iconfileBytes);
