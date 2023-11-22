@@ -12,9 +12,45 @@
 
     <style>
         .btn-danger {
-          width: 20%;
-          white-space: nowrap;
-          float: left;
+            /*width: 20%;*/
+            white-space: nowrap;
+            float: left;
+        }
+        @media (max-width: 768px) {
+            .overflow-x-hidden {
+                overflow-x: hidden !important;
+            }
+            .d-flex {
+                display: block !important;
+            }
+
+            #startTime_mb, #endTime_mb, #date_mb, #radio-check_mb {
+                display: flex !important;
+            }
+
+            .row .d-flex {
+                margin-top: 5px;
+                margin-bottom: 5px;
+            }
+            #form-select_mb{
+                width : 100%;
+            }
+
+            .d-flex input[type="text"] {
+                margin-top: 5px;
+                margin-bottom: 5px;
+            }
+            .d-flex input[type="number"] {
+                margin-bottom: 5px;
+                width : 50%;
+            }
+        }
+
+        @media (min-width: 769px) {
+            #form-select_mb{
+                width : 300px;
+            }
+
         }
     </style>
 
@@ -30,8 +66,7 @@
                 <div th:if="${error != null}" class="text-center mb-4">
                     <h3 style="color: red;" th:text="${error}"></h3>
                 </div>
-
-                <div class="col-md-12 d-flex flex-row align-items-center gap-3">
+                <div id= "date_mb" class="col-md-12 d-flex flex-row align-items-center gap-3">
                     <p class="text-center">日付</p>
                     <div class="cs-form">
                         <input type="date" class="form-control" name="date" th:value="${reportCreateInput.date}"
@@ -39,14 +74,15 @@
                     </div>
                 </div>
 
-                <div class="col-md-12 d-flex flex-row align-items-center gap-3">
+
+                <div id= "startTime_mb" class="col-md-12 d-flex flex-row align-items-center gap-3">
                     <p class="text-center">出勤時間</p>
                     <div class="cs-form">
                         <input type="time" class="form-control" name="startTime"
                                th:value="${reportCreateInput.startTime}" required/>
                     </div>
                 </div>
-                <div class="col-md-12 d-flex flex-row align-items-center gap-3">
+                <div id= "endTime_mb" class="col-md-12 d-flex flex-row align-items-center gap-3" >
                     <p class="text-center">退勤時間</p>
                     <div class="cs-form">
                         <input type="time" class="form-control" name="endTime" th:value="${reportCreateInput.endTime}"
@@ -56,7 +92,7 @@
                 <div class="col-md-12 d-flex flex-row gap-5">
                     <label>※遅刻・早退の場合はチェックマーク</label>
                 </div>
-                <div class="col-md-12 d-flex flex-row gap-5">
+                <div id = "radio-check_mb" class="col-md-12 d-flex flex-row gap-5">
                     <div class="form-check">
                         <input class="form-check-input" type="checkbox" value="true" id="check_Lateness"
                                name="isLateness" th:checked="${reportCreateInput.isLateness}"/>
@@ -76,7 +112,7 @@
                 </div>
                 <div class="col-md-12 d-flex flex-row gap-3">
                     <label class="text-nowrap">本日の体調</label>
-                    <select class="form-select" name="condition" aria-label="example" style="width:300px;" required>
+                    <select id = "form-select_mb" class="form-select" name="condition" aria-label="example"  required>
                         <option selected th:value="${''}">選択</option>
                         <option th:value="${'良好'}">良好</option>
                         <option th:value="${'普通'}">普通</option>
@@ -130,9 +166,9 @@
     let taskIndex = /*[[${reportCreateInput.taskLogs.size()}]]*/;
 
     elem.onclick = function() {
-      const node = document.createElement("div");
-      node.setAttribute("class", "row");
-      node.innerHTML += `<div class="flex-row d-flex gap-3 col-md-8">
+        const node = document.createElement("div");
+        node.setAttribute("class", "row");
+        node.innerHTML += `<div class="flex-row d-flex gap-3 col-md-8">
                                 <input type="text" class="form-control" placeholder="タスク名" aria-label=""
                                        name="${'taskLogs[' + taskIndex + '].name'}" required>
                                 <input type="number" class="form-control" placeholder="進捗率" aria-label=""
@@ -140,12 +176,12 @@
                                 <button type="button" class="btn btn-danger" onclick="removeTask(this)">削除</button>
                             </div>`;
 
-      todoField.appendChild(node);
-      taskIndex++;
+        todoField.appendChild(node);
+        taskIndex++;
     };
 
     function removeTask(button) {
-       button.parentNode.parentNode.remove();
+        button.parentNode.parentNode.remove();
     }
     /*]]>*/
     function checkInput() {
@@ -163,29 +199,29 @@
 
     // 遅刻のcheckbokにvalidationをチェックします。
     document.addEventListener('DOMContentLoaded', function() {
-    var isLateness = document.getElementById('check_Lateness');
-     var text_latenessReason = document.getElementById('text_latenessReason');
+        var isLateness = document.getElementById('check_Lateness');
+        var text_latenessReason = document.getElementById('text_latenessReason');
 
-     isLateness.addEventListener('change', function() {
-         if (this.checked) {
-             validateInput();
-         } else {
-             text_latenessReason.setCustomValidity("");
-         }
-     });
-     text_latenessReason.addEventListener('input', function() {
-         if (isLateness.checked) {
-             validateInput();
-         }
-     });
-     function validateInput() {
-         if (text_latenessReason.value.trim() === '') {
-             text_latenessReason.setCustomValidity("遅刻理由を記入してください");
-	         } else {
-             text_latenessReason.setCustomValidity("");
-         }
-     }
- });
+        isLateness.addEventListener('change', function() {
+            if (this.checked) {
+                validateInput();
+            } else {
+                text_latenessReason.setCustomValidity("");
+            }
+        });
+        text_latenessReason.addEventListener('input', function() {
+            if (isLateness.checked) {
+                validateInput();
+            }
+        });
+        function validateInput() {
+            if (text_latenessReason.value.trim() === '') {
+                text_latenessReason.setCustomValidity("遅刻理由を記入してください");
+            } else {
+                text_latenessReason.setCustomValidity("");
+            }
+        }
+    });
 
 </script>
 </html>
