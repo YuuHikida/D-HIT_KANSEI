@@ -42,27 +42,33 @@ public class MemberController {
             Model model
     ) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        //バリデーションInteger
         int employeeCode = Integer.parseInt(authentication.getName());
+        //employeeCodeを使用し、直近のreportがあるか調べる(取得)
         String latestReportId = reportService.getLatestIdByEmployeeCode(employeeCode);
         ReportCreateInput reportCreateInput = new ReportCreateInput();
+        //java.timeパッケージから現在の時刻を取得
         reportCreateInput.setDate(LocalDate.now());
 
         if (latestReportId == null) {
             model.addAttribute("reportCreateInput", reportCreateInput);
             return "member/report-create";
         }
-
+        //以下reportがひとつでもあった場合の処理
+        //既存のreportidを参照にreportModelの値をすべてset
         Report report = reportService.getReportById(Integer.parseInt(latestReportId));
-
+        //(前日のreport内容を引継ぎ入力欄に記入)
         reportCreateInput.setStartTime(report.getStartTime());
         reportCreateInput.setEndTime(report.getEndTime());
-
+        //report_idを参照してtask_Logの値を取得しset
         reportCreateInput.setTaskLogs(taskLogService.getIncompleteTaskLogsByReportId(Integer.parseInt(latestReportId)));
+
         model.addAttribute("reportCreateInput", reportCreateInput);
         return "member/report-create";
 
     }
 
+    //↓Transactionalはトランザクション処理で一連の流れが失敗した場合ロールバックする
     @Transactional
     @PostMapping("/report/create")
     public String createReport(ReportCreateInput reportCreateInput, RedirectAttributes redirectAttributes) {
@@ -76,6 +82,7 @@ public class MemberController {
             return "redirect:/member/report/create";
         }
 
+        //newReportIdには新たにInsertされたreportのIDが入る
         int newReportId = reportService.create(
                 employeeCode,
                 reportCreateInput.getCondition(),

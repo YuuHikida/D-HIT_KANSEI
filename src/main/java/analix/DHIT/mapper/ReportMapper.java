@@ -24,11 +24,13 @@ public interface ReportMapper {
     @Select("SELECT id FROM report WHERE employee_code = #{employeeCode} ORDER BY date DESC LIMIT 1")
     String selectLatestIdByEmployeeCode(int employeeCode);
 
+    //↓@Optionsは自動生成された"id"を返す処理をする
     @Insert("INSERT INTO report(employee_code, `condition`, impressions, tomorrow_schedule, date, start_time, end_time, is_lateness, lateness_reason, is_left_early) " +
             "VALUES(#{employeeCode}, #{condition}, #{impressions}, #{tomorrowSchedule}, #{date}, #{startTime}, #{endTime}, #{isLateness}, #{latenessReason}, #{isLeftEarly})")
     @Options(useGeneratedKeys = true, keyProperty = "id")
     void insertReport(Report report);
 
+    //↓COUNT(*)は集計関数していされた行の数を返す
     @Select("SELECT COUNT(*) FROM report WHERE employee_code = #{employeeCode} AND date = #{date}")
     int countReportByEmployeeCodeAndDate(int employeeCode, LocalDate date);
 

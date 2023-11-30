@@ -27,6 +27,7 @@ public class ReportService {
     }
 
     public Report getReportById(int reportId) {
+        //↓ @Select("SELECT * FROM report WHERE id = #{reportId}")これが入る
         Report report = reportRepository.findById(reportId);
         if (report == null) {
             throw new ReportNotFoundException("Report Not Found");
